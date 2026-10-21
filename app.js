@@ -721,7 +721,7 @@ function onSubmit(ev){
   })
     .then(function(r){return r.json()})
     .then(function(res){
-      if(res && res.ok){ sel.reqId=res.id; trackReq(res.id); SENT=snapshot(); saveSent(SENT); showDone(); loadDays(true,true); }
+      if(res && res.ok){ sel.reqId=res.id; trackReq(res.id); SENT=snapshot(); saveSent(SENT); showDone(); setTimeout(function(){ loadDays(true,true) },4000); }
       else if(res && res.error==='taken'){
         var tk=sel.date; sel.date=null; loadDays(true,true); renderSummary(); showDlg('Sorry, that date was just taken',longDate(tk)+' was requested by someone else a moment ago.',tk);
         setStatus('Sorry, that date was just taken. Please choose another date.',true);
@@ -932,7 +932,7 @@ function handleStatuses(st){
 // Cheap "did anything change?" check every few seconds (catches Accepted / Hold edits in the sheet).
 var checking=false;
 function check(){
-  if(!CONFIG.scriptUrl||document.hidden||checking) return;
+  if(!CONFIG.scriptUrl||document.hidden||checking||sending) return;   // stay quiet while a request is being sent
   checking=true;
   var ids=readReqs().map(function(r){return r.id}).join(',');
   fetch(CONFIG.scriptUrl+'?check=1&t='+Date.now()+(ids?'&ids='+encodeURIComponent(ids):''),{cache:'no-store'}).then(function(r){return r.json()})
