@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>AARF Dashboard</title>
+<link rel="icon" href="images/logo.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#f4f3fb;--surface:#fff;--ink:#1b1740;--muted:#5d5a7c;--line:#dcd9ee;--accent:#d6247a;--accent-ink:#fff;--gold:#f2b134;--hero:#1b1740;
+--new:#d6247a;--ok:#14803c;--okbg:#e3f6ea;--hold:#8a5a00;--holdbg:#fbefd0;--no:#7a7794;--nobg:#e9e7f4;--newbg:#fde4f0;
+--fd:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;--fb:'Figtree','Segoe UI',system-ui,sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#12102a;--surface:#1d1a3d;--ink:#f1effc;--muted:#a9a6c8;--line:#34305f;--accent:#ff5aa5;--accent-ink:#1a0a14;--hero:#0b0a1e;
+--new:#ff5aa5;--ok:#7ce0a1;--okbg:#12351f;--hold:#f5c35a;--holdbg:#3b3118;--no:#a9a6c8;--nobg:#2a2650;--newbg:#3d1530;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.5 var(--fb);padding-bottom:env(safe-area-inset-bottom,0)}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+header{background:var(--hero);color:#fff;padding:calc(.9rem + env(safe-area-inset-top,0)) 1rem .9rem;border-bottom:4px solid var(--accent)}
+.bar{max-width:60rem;margin:0 auto;display:flex;align-items:center;gap:.7rem}
+.bar img{width:2.6rem;height:2.6rem;border-radius:50%;background:#fff}
+.bar h1{font:800 1.2rem/1.1 var(--fd);margin:0;flex:1}.bar small{display:block;font:500 .75rem var(--fb);opacity:.75}
+.ib{background:transparent;border:1px solid #ffffff55;color:#fff;border-radius:10px;min-height:2.5rem;padding:0 .8rem;cursor:pointer}
+main{max-width:60rem;margin:0 auto;padding:1rem}
+.login{max-width:22rem;margin:12vh auto;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:1.4rem}
+.login h2{font:800 1.4rem var(--fd);margin:0 0 .3rem}.login p{color:var(--muted);margin:.2rem 0 1rem}
+input[type=password],input[type=search],select{width:100%;min-height:2.9rem;border:1px solid var(--line);border-radius:10px;padding:.5rem .75rem;background:var(--bg)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;min-height:2.6rem;padding:.4rem .9rem;border-radius:10px;border:1px solid var(--line);background:var(--surface);font-weight:700;text-decoration:none;cursor:pointer;color:var(--ink)}
+.btn.p{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}.btn.wa{background:#1fa855;border-color:#1fa855;color:#fff}.login .btn{width:100%;margin-top:.8rem}
+.err{color:#b3261e;font-weight:700;margin:.6rem 0 0}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem}
+@media(min-width:42rem){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:.8rem .9rem;min-width:0}
+.kpi b{display:block;font:800 1.65rem/1.1 var(--fd);font-variant-numeric:tabular-nums}.kpi span{font-size:.8rem;color:var(--muted);font-weight:700}
+.kpi.hot{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}.kpi.hot b{color:var(--accent)}
+.tabs{display:flex;gap:.4rem;margin:1.1rem 0 .8rem;overflow-x:auto;padding-bottom:.2rem}
+.tab{flex:none;min-height:2.6rem;padding:0 .95rem;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-weight:700;cursor:pointer}
+.tab[aria-selected=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}.tab i{font-style:normal;opacity:.7;margin-left:.3rem}
+.cal{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:.8rem;margin-bottom:.9rem}
+.cal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem}.cal-h strong{font:800 1.05rem var(--fd)}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}.dow{font-size:.7rem;text-align:center;color:var(--muted);font-weight:700}
+.d{aspect-ratio:1;min-height:2.4rem;border:1px solid var(--line);border-radius:9px;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;padding:0;font-size:.85rem}
+.d.e{visibility:hidden}.d.t{border:2px solid var(--gold)}.d[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.dots{display:flex;gap:2px;height:.45rem}.dots i{width:.45rem;height:.45rem;border-radius:50%}
+.k-new{background:var(--new)}.k-accepted{background:var(--ok)}.k-hold{background:var(--hold)}
+.legend{display:flex;gap:.9rem;flex-wrap:wrap;font-size:.8rem;color:var(--muted);margin-top:.5rem}.legend i{display:inline-block;width:.6rem;height:.6rem;border-radius:50%;margin-right:.3rem}
+.tools{display:flex;gap:.5rem;margin-bottom:.8rem}.tools>*{flex:1}.tools select{flex:0 0 9rem}
+.list{display:grid;gap:.7rem}@media(min-width:42rem){.list{grid-template-columns:1fr 1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--no);border-radius:12px;padding:.85rem .95rem;min-width:0}
+.card.s-new{border-left-color:var(--new)}.card.s-accepted{border-left-color:var(--ok)}.card.s-hold{border-left-color:var(--hold)}
+.top{display:flex;justify-content:space-between;gap:.6rem;align-items:flex-start}.top strong{font:800 1.08rem var(--fd);overflow-wrap:anywhere}
+.badge{flex:none;font-size:.72rem;font-weight:800;padding:.15rem .55rem;border-radius:999px;background:var(--nobg);color:var(--no);text-transform:uppercase;letter-spacing:.04em}
+.badge.new{background:var(--newbg);color:var(--new)}.badge.accepted{background:var(--okbg);color:var(--ok)}.badge.hold{background:var(--holdbg);color:var(--hold)}
+.card p{margin:.2rem 0;overflow-wrap:anywhere}.meta{color:var(--muted);font-size:.9rem}.when{font-weight:700}.when em{font-style:normal;color:var(--accent)}
+.amt{font:800 1.05rem var(--fd);font-variant-numeric:tabular-nums}
+.act{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.7rem}.act .btn{min-height:2.4rem;font-size:.9rem;flex:1 1 auto}
+.empty{color:var(--muted);text-align:center;padding:2rem 1rem;background:var(--surface);border:1px dashed var(--line);border-radius:12px}
+.note{font-size:.8rem;color:var(--muted);text-align:center;margin:1.2rem 0}
+</style>
+</head>
+<body>
+<header><div class="bar"><img src="images/logo.png" alt=""><h1>Booking dashboard<small id="sub"></small></h1>
+<button class="ib" id="rf" hidden>Refresh</button><button class="ib" id="out" hidden>Lock</button></div></header>
+<main id="root"></main>
+<script src="config.js"></script>
+<script>
+(function(){
+var SHEET_URL='';   // optional: paste your Google Sheet link to show an "Open sheet" button
+var API=CONFIG.scriptUrl, KEY=''; try{KEY=localStorage.getItem('aarf_admin')||''}catch(x){}
+var D=null, tab='new', q='', fs='', pick=null, mo=new Date(); mo.setDate(1);
+var root=document.getElementById('root'), sub=document.getElementById('sub'), rf=document.getElementById('rf'), out=document.getElementById('out');
+function h(t,a){var e=document.createElement(t);a=a||{};for(var k in a){if(k==='class')e.className=a[k];else if(k.slice(0,2)==='on')e[k]=a[k];else if(a[k]!==false&&a[k]!=null)e.setAttribute(k,a[k])}
+ for(var i=2;i<arguments.length;i++){var c=arguments[i];if(c==null||c===false)continue;if(Array.isArray(c))c.forEach(function(x){x&&e.append(x)});else e.append(c)}return e}
+function num(s){return parseFloat(String(s||'').replace(/[^\d.]/g,''))||0}
+function peso(n){return '\u20B1'+Math.round(n).toLocaleString('en-PH')}
+function ymd(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function pd(s){var p=String(s).split('-');return new Date(+p[0],+p[1]-1,+p[2])}
+function fd(s){return s?pd(s).toLocaleDateString('en-PH',{weekday:'short',month:'short',day:'numeric'}):'No date'}
+function st(r){return String(r.status||'New').toLowerCase()}
+function days(s){return Math.round((pd(s)-pd(D.now))/864e5)}
+function away(s){var n=days(s);return n===0?'Today':n===1?'Tomorrow':n>1?'in '+n+' days':Math.abs(n)+' days ago'}
+function wa(r){var n=String(r.phone).replace(/\D/g,'');if(n[0]==='0')n='63'+n.slice(1);
+ var t=r.reply||('Hi '+r.name+', this is AARF Karaoke & Event Rentals. Thank you for your request for '+fd(r.date)+'!');return 'https://wa.me/'+n+'?text='+encodeURIComponent(t)}
+
+function login(msg){
+ rf.hidden=out.hidden=true; sub.textContent='';
+ var inp=h('input',{type:'password',placeholder:'Admin key',autocomplete:'current-password','aria-label':'Admin key'});
+ var go=function(){KEY=inp.value.trim();if(!KEY)return;load(true)};
+ inp.onkeydown=function(e){if(e.key==='Enter')go()};
+ root.replaceChildren(h('div',{class:'login'},h('h2',{},'Owner sign in'),h('p',{},'Enter the ADMIN_KEY you saved in your Google Script properties.'),inp,
+  h('button',{class:'btn p',onclick:go},'Open dashboard'),msg?h('p',{class:'err',role:'alert'},msg):null));inp.focus()}
+
+function load(first){
+ if(!API){login('scriptUrl is empty in config.js');return}
+ rf.textContent='...';
+ fetch(API+'?admin=1&key='+encodeURIComponent(KEY)).then(function(r){return r.json()}).then(function(j){
+  rf.textContent='Refresh';
+  if(!j.ok){try{localStorage.removeItem('aarf_admin')}catch(x){}login(j.error==='auth'?'That key is not right.':'Could not load data.');return}
+  try{localStorage.setItem('aarf_admin',KEY)}catch(x){}
+  D=j;rf.hidden=out.hidden=false;draw()
+ }).catch(function(){rf.textContent='Refresh';if(D){sub.textContent='Offline, showing last data'}else login('Could not reach the server. Check your internet.')})}
+
+function kpis(){
+ var R=D.reqs,t=D.now,mon=t.slice(0,7),nw=R.filter(function(r){return st(r)==='new'}).length;
+ var up=R.filter(function(r){return st(r)==='accepted'&&r.date>=t}).sort(function(a,b){return a.date<b.date?-1:1});
+ var rev=R.filter(function(r){return st(r)==='accepted'&&r.date.slice(0,7)===mon}).reduce(function(s,r){return s+num(r.total||r.price)},0);
+ var paid=0,bal=0;D.tx.forEach(function(x){var tot=num(x.total),p=num(x.paid);paid+=p;bal+=Math.max(0,x.bal===''||x.bal==null?tot-p:num(x.bal))});
+ function k(v,l,c){return h('div',{class:'kpi'+(c?' hot':'')},h('b',{},v),h('span',{},l))}
+ return h('div',{class:'kpis'},k(nw,'New requests to answer',nw>0),k(up.length,up.length?'Upcoming events (next: '+fd(up[0].date)+')':'Upcoming events'),
+  k(peso(rev),'Booked this month'),k(peso(bal),'Balance to collect ('+peso(paid)+' received)'))}
+
+function calendar(){
+ var y=mo.getFullYear(),m=mo.getMonth(),first=new Date(y,m,1).getDay(),n=new Date(y,m+1,0).getDate(),by={};
+ D.reqs.forEach(function(r){var s=st(r);if(r.date&&s!=='declined'){(by[r.date]=by[r.date]||{})[s]=1}});
+ var g=h('div',{class:'grid'},['Su','Mo','Tu','We','Th','Fr','Sa'].map(function(x){return h('div',{class:'dow'},x)}));
+ for(var i=0;i<first;i++)g.append(h('div',{class:'d e'}));
+ for(var d=1;d<=n;d++){(function(d){var k=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0'),b=by[k]||{};
+  g.append(h('button',{class:'d'+(k===D.now?' t':''),type:'button','aria-pressed':pick===k,'aria-label':fd(k),onclick:function(){pick=pick===k?null:k;if(pick){tab='all';q='';fs=''}draw()}},
+   String(d),h('span',{class:'dots'},['new','hold','accepted'].map(function(s){return b[s]?h('i',{class:'k-'+s}):null}))))})(d)}
+ var nav=function(dx){return function(){mo=new Date(y,m+dx,1);draw()}};
+ return h('div',{class:'cal'},h('div',{class:'cal-h'},h('button',{class:'btn',onclick:nav(-1),'aria-label':'Previous month'},'\u2039'),
+  h('strong',{},mo.toLocaleDateString('en-PH',{month:'long',year:'numeric'})),h('button',{class:'btn',onclick:nav(1),'aria-label':'Next month'},'\u203A')),g,
+  h('div',{class:'legend'},h('span',{},h('i',{class:'k-new'}),'New'),h('span',{},h('i',{class:'k-hold'}),'Hold'),h('span',{},h('i',{class:'k-accepted'}),'Accepted')))}
+
+function card(r){
+ var s=st(r),n=r.date?days(r.date):null,ad=r.addons&&!/^none$/i.test(r.addons)?' + '+r.addons:'';
+ return h('article',{class:'card s-'+s},
+  h('div',{class:'top'},h('strong',{},r.name),h('span',{class:'badge '+s},r.status||'New')),
+  h('p',{class:'when'},fd(r.date)+' \u00B7 '+(r.time||'')+(r.hours?' \u00B7 '+r.hours+' hrs ':' '),n!=null&&s!=='declined'?h('em',{},'\u2022 '+away(r.date)):null),
+  h('p',{},r.pkg+ad),h('p',{class:'meta'},'\uD83D\uDCCD '+(r.venue||'No venue')+(r.delivery?' \u00B7 Delivery: '+r.delivery:'')),
+  h('p',{class:'amt'},r.total||r.price||'',h('span',{class:'meta'},r.pay?'  \u00B7 '+r.pay:'')),
+  r.event?h('p',{class:'meta'},r.event):null,r.notes?h('p',{class:'meta'},'Notes: '+r.notes):null,
+  h('div',{class:'act'},h('a',{class:'btn',href:'tel:'+String(r.phone).replace(/[^\d+]/g,'')},'Call'),
+   h('a',{class:'btn wa',href:wa(r),target:'_blank',rel:'noopener'},'WhatsApp'),
+   /^https:\/\/www\.google\.com\/maps/.test(r.loc||'')?h('a',{class:'btn',href:r.loc,target:'_blank',rel:'noopener'},'Map pin'):null))}
+
+function pay(x){
+ var tot=num(x.total),p=num(x.paid),b=x.bal===''||x.bal==null?tot-p:num(x.bal),ok=b<=0&&tot>0;
+ return h('article',{class:'card s-'+(ok?'accepted':'hold')},h('div',{class:'top'},h('strong',{},x.name),h('span',{class:'badge '+(ok?'accepted':'hold')},ok?'Paid':'Balance '+peso(b))),
+  h('p',{},x.pkg),h('p',{class:'amt'},peso(p)+' of '+peso(tot)),h('p',{class:'meta'},x.method||'No payment method yet'))}
+
+function body(){
+ var R=D.reqs.slice().reverse(),t=D.now,L,fn=card;
+ if(tab==='new')L=R.filter(function(r){return st(r)==='new'});
+ else if(tab==='up')L=R.filter(function(r){var s=st(r);return(s==='accepted'||s==='hold')&&r.date>=t}).sort(function(a,b){return a.date<b.date?-1:1});
+ else if(tab==='pay'){L=D.tx.slice().sort(function(a,b){return num(b.bal)-num(a.bal)});fn=pay}
+ else{L=R.filter(function(r){return(!pick||r.date===pick)&&(!fs||st(r)===fs)&&(!q||(r.name+r.phone+r.pkg+r.venue+r.id).toLowerCase().indexOf(q)>-1)});}
+ var top=null;
+ if(tab==='all')top=h('div',{class:'tools'},(function(){var i=h('input',{type:'search',placeholder:'Search name, phone, venue',value:q,'aria-label':'Search'});i.oninput=function(){q=i.value.trim().toLowerCase();clearTimeout(i._t);i._t=setTimeout(function(){draw(i)},250)};return i})(),
+  (function(){var s=h('select',{'aria-label':'Status'},[['','All status'],['new','New'],['accepted','Accepted'],['hold','Hold'],['declined','Declined']].map(function(o){return h('option',{value:o[0],selected:o[0]===fs},o[1])}));s.onchange=function(){fs=s.value;draw()};return s})());
+ var msg={new:'No new requests. You are all caught up. \uD83C\uDF89',up:'No upcoming accepted events yet.',pay:'No payments logged yet. Accepted bookings appear here.',all:'Nothing matches.'}[tab];
+ return h('div',{},pick&&tab==='all'?h('p',{class:'meta'},'Showing '+fd(pick)+' \u00B7 ',h('a',{href:'#',onclick:function(e){e.preventDefault();pick=null;draw()}},'clear')):null,top,
+  L.length?h('div',{class:'list'},L.map(fn)):h('div',{class:'empty'},msg))}
+
+function draw(keep){
+ var R=D.reqs,c={new:R.filter(function(r){return st(r)==='new'}).length,up:R.filter(function(r){var s=st(r);return(s==='accepted'||s==='hold')&&r.date>=D.now}).length,pay:D.tx.length,all:R.length};
+ sub.textContent='Updated '+new Date().toLocaleTimeString('en-PH',{hour:'numeric',minute:'2-digit'});
+ var tabs=h('div',{class:'tabs',role:'tablist'},[['new','Needs reply'],['up','Upcoming'],['pay','Payments'],['all','All requests']].map(function(t){
+  return h('button',{class:'tab',role:'tab','aria-selected':tab===t[0],onclick:function(){tab=t[0];draw()}},t[1],h('i',{},c[t[0]]))}));
+ root.replaceChildren.apply(root,[kpis(),tabs,tab==='all'||tab==='up'?calendar():null,body(),
+  h('p',{class:'note'},'To accept, hold or decline a request, change its Status in the Google Sheet. This page updates by itself.',SHEET_URL?[' ',h('a',{href:SHEET_URL,target:'_blank',rel:'noopener'},'Open sheet')]:null)].filter(Boolean));
+ if(keep){var i=root.querySelector('input[type=search]');if(i){i.focus();i.setSelectionRange(i.value.length,i.value.length)}}}
+
+rf.onclick=function(){load()};out.onclick=function(){try{localStorage.removeItem('aarf_admin')}catch(x){}KEY='';D=null;login()};
+setInterval(function(){if(D&&!document.hidden)load()},30000);
+document.addEventListener('visibilitychange',function(){if(D&&!document.hidden)load()});
+if(KEY)load(true);else login();
+})();
+</script>
+</body>
+</html>
