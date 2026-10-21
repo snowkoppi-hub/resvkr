@@ -136,9 +136,9 @@ main{width:100%;margin-inline:auto!important}
 /* ===== calendar page: calendar first, legend and notes below; plain date text ===== */
 #cal{display:flex;flex-direction:column}
 #cal>.cal-head{order:1}#cal>.grid{order:2}#cal>.legend{order:3}#cal>.chosen{order:4}#cal>p.hint,#cal>p.note{order:5}
-#cal .legend{display:flex;flex-wrap:wrap;justify-content:center;gap:.35rem .9rem;font-size:.78rem;margin:.9rem 0 0}
-#cal .chosen{background:none!important;border:0!important;box-shadow:none!important;padding:0!important;margin:1rem 0 .2rem!important;text-align:center;font-size:1.05rem;font-weight:700;color:var(--ink)}
-#cal p.hint,#cal p.note{margin:.6rem 0 0!important;font-size:.85rem;color:var(--muted);text-align:center}
+#cal .legend{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:.35rem .9rem;font-size:.78rem;margin:.9rem 0 0}
+#cal .chosen{background:none!important;border:0!important;box-shadow:none!important;padding:0!important;margin:1rem 0 .2rem!important;text-align:left;font-size:1.05rem;font-weight:700;color:var(--ink)}
+#cal p.hint,#cal p.note{margin:.6rem 0 0!important;font-size:.85rem;color:var(--muted);text-align:left}
 .page-date .card{padding:.75rem .5rem}.page-date .card>h3,.chip{display:none}
 #cal .grid{gap:.25rem;margin-top:.5rem!important}
 
@@ -155,34 +155,38 @@ main{width:100%;margin-inline:auto!important}
 .hero p:not(.eyebrow){font-size:.82rem!important;margin-top:.25rem!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 @media(min-width:48rem){.hero{padding:1.2rem 1.5rem!important}.logo{width:4.5rem!important;height:4.5rem!important}.hero h1{font-size:clamp(1.5rem,2.6vw,2rem)!important}.hero p:not(.eyebrow){font-size:.95rem!important}}
 
-/* ===== calendar: scales with the screen (phone > tablet > laptop > large monitor) ===== */
-/* Phone: full width, cells fill the card */
-#cal{width:100%;min-width:0;max-width:none}
+/* ===== calendar: even, square cells that grow with the screen (phone > tablet > laptop > monitor) ===== */
+#cal{width:100%;min-width:0;max-width:none;margin-inline:auto}
 .page-date,.page-date .card{width:100%;min-width:0}
-#cal .day{aspect-ratio:1/1.1;min-height:2.7rem}
-/* Tablet and up: roomier card, calendar centered, size follows both width and screen height so it never gets cut off */
+#cal .grid{gap:clamp(4px,1.4cqw,8px);margin-top:.7rem!important}
+#cal .dow{font-size:clamp(.72rem,2.6cqw,.9rem);padding-bottom:.35rem}
+#cal .day{aspect-ratio:1/1!important;min-height:0!important;border-radius:12px}
+#cal .day .dn{font-size:clamp(.95rem,4.6cqw,1.3rem)}
+#cal .day .ds{font-size:clamp(.52rem,2.4cqw,.75rem)}
+#cal .cal-head strong{font-size:1.2rem}
+/* text under the calendar reads left to right, like normal text */
+#cal .legend{justify-content:flex-start;text-align:left}
+#cal .chosen,#cal p.hint,#cal p.note{text-align:left!important}
+/* Tablet: comfortable card, calendar centered */
 @media(min-width:40rem){
   [data-step=date] main{max-width:44rem!important}
-  .page-date .card{padding:1.25rem 1.5rem}
-  #cal{width:100%!important;min-width:0;max-width:34rem!important;margin-inline:auto}
-  #cal .day{aspect-ratio:1/.92!important;min-height:2.8rem!important}
-  #cal .cal-head{margin-bottom:.8rem}
-  #cal .cal-head strong{font-size:1.25rem}
+  .page-date .card{padding:1.5rem 1.75rem}
+  #cal{max-width:32rem!important}
+  #cal .cal-head{margin-bottom:.9rem}
+  #cal .cal-head strong{font-size:1.35rem}
   #cal .nav{width:2.9rem;height:2.9rem}
-  #cal .legend{margin-top:1rem}
+  #cal .legend{margin-top:1.1rem;gap:.45rem 1.1rem;font-size:.85rem}
 }
-/* Laptop / desktop: larger calendar and room for the legend */
+/* Laptop / desktop: same proportions, a little larger */
 @media(min-width:64rem){
-  [data-step=date] main{max-width:52rem!important}
-  #cal{width:100%!important;max-width:40rem!important}
-  #cal .day{aspect-ratio:1/.85!important;min-height:3rem!important}
-  #cal .grid{gap:.4rem}
-  #cal .legend{font-size:.85rem;gap:.4rem 1.2rem}
+  [data-step=date] main{max-width:48rem!important}
+  #cal{max-width:36rem!important}
+  #cal .day{border-radius:14px}
 }
-/* Short screens (small laptops, phones in landscape): shrink so the grid fits without cut-off */
-@media(max-height:42rem){
-  #cal .day{min-height:2.2rem!important;aspect-ratio:1/.75!important}
-  #cal .legend,#cal .chosen{margin-top:.5rem!important}
+/* Short screens: keep cells square but trim the card so less scrolling is needed */
+@media(max-height:46rem) and (min-width:40rem){
+  #cal{max-width:28rem!important}
+  .page-date .card{padding:1rem 1.25rem}
 }
 @media(max-height:30rem) and (orientation:landscape){
   .bar,.nextrow,[data-step=pay] .send-row,.sbar{flex-direction:row;padding:.5rem 1rem calc(.5rem + env(safe-area-inset-bottom,0px))}
