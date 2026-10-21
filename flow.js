@@ -160,9 +160,10 @@ function tidyDone(){
     box.querySelector('input').addEventListener('change',function(e){ var pb=doneBox.querySelector('.pin-hide'); if(e.target.checked&&pb) pb.click() });
     mb.before(box) }
   var inp=box.querySelector('input'), sm=box.querySelector('small');
-  if(!pinBtn){ inp.checked=true; inp.disabled=true; sm.textContent='Pin added to your Messenger message.' }
+  var put=function(n,v){ if(n.textContent!==v) n.textContent=v };   // only write when it changed, or the observer below would re-trigger itself forever
+  if(!pinBtn){ inp.checked=true; inp.disabled=true; put(sm,'Pin added to your Messenger message.') }
   else { var t=pinBtn.textContent, busy=/^Getting/.test(t), idle=t.charCodeAt(0)===0xD83D; inp.disabled=busy; if(!busy) inp.checked=false;
-    sm.textContent=busy?'Getting your location...':idle?'So we can find your venue easily.':t }
+    put(sm,busy?'Getting your location...':idle?'So we can find your venue easily.':t) }
 }
 new MutationObserver(tidyDone).observe(doneBox,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden']});
 new MutationObserver(function(){ if(doneBox.hidden&&document.body.dataset.step==='sent'){cur=-1;resetLegal();go('home')} }).observe(doneBox,{attributes:true,attributeFilter:['hidden']});
