@@ -27,7 +27,7 @@ var CONFIG = {
     'Gloria': ['Banus','Agsalin','Maragooc']
   },
   // Paste your Google Apps Script Web App URL here (ends with /exec)
-  scriptUrl: 'https://script.google.com/macros/s/AKfycbz3SzCYk7ozprpOsh-qD0_7FSUarEZ_ALlk38--Z3DODAqTveBO4uvOAjN2hU7tNdrPsQ/exec',
+  scriptUrl: 'https://script.google.com/macros/s/AKfycbwSFxQb0p6eT8dP64zQdHoE1cxsM_tSEF67hwXWIlt8uSaFhk0m_fBvO95gExGltSTo/exec',
   // Your Facebook page username, for the optional Messenger button (example: 'myvideokepage'). Leave '' to hide.
   messenger: '1368190183045322',
   // Facebook page opened when the logo is tapped. Paste your full page link (example: 'https://www.facebook.com/yourpage'). Leave '' to use the Messenger page above.
