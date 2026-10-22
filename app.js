@@ -144,6 +144,7 @@ function flag(k){
   var v=String(ST[k]==null?'':ST[k]).trim().toLowerCase();
   return !(v==='no'||v==='off'||v==='hide'||v==='false'||v==='0');
 }
+window.arFlag=flag;   // lets flow.js read the on/off switches (pop-ups, Terms, Privacy) from the Settings sheet
 var heroEl=h('header',{class:'hero'}), eyebrowEl=h('p',{class:'eyebrow'},FALLBACK.eyebrow), titleEl=h('h1',{},CONFIG.name), subEl=h('p',{},FALLBACK.subtitle);
 // Facebook page the logo opens. Uses CONFIG.facebook (full link or page name) if set, otherwise the Messenger page id/name.
 function fbUrl(){
@@ -889,6 +890,8 @@ function loadDays(quiet,force){
     .then(function(r){return r.json()})
     .then(function(res){
       if(!res||!res.ok) throw new Error('bad');
+      if(res.settings){ ST=res.settings; HAVE=true; try{ localStorage.setItem('arSettings',JSON.stringify(res.settings)); }catch(e){} }
+      window.arFresh=true; document.dispatchEvent(new Event('arsettings'));   // tell flow.js the latest sheet switches have arrived
       var wasOk=daysState==='ok'; daysState='ok';
       if(wasOk&&!force&&res.v&&res.v===ver) return;   // same data as on screen: touch nothing
       saveCache(res);
