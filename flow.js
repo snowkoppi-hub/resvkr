@@ -13,6 +13,9 @@ var appDlg=document.querySelector('dialog.dlg'), doneBox=document.getElementById
 var rm=form.querySelector('.loc-rm'); if(rm) rm.click();   // no pin question on the booking pages; it is offered after the request is sent
 function flash(e){e.classList.remove('flash');void e.offsetWidth;e.classList.add('flash')}
 
+/* on/off switches from the Google Sheet > Settings (Yes / No). Default is Yes until the sheet answers. */
+function F(k){ return typeof window.arFlag==='function' ? window.arFlag(k) : true }
+
 /* announcement */
 var ann=el('dialog',{class:'ann'},
   el('button',{class:'ann-x','aria-label':'Close',text:'×',on:{click:function(){ann.close()}}}),
@@ -23,7 +26,11 @@ var ann=el('dialog',{class:'ann'},
   el('button',{class:'btn',id:'ann-go',text:'Submit',disabled:'',on:{click:function(){ann.close()}}}));
 document.body.append(ann);
 ann.querySelector('#ann-ck').addEventListener('change',function(e){ann.querySelector('#ann-go').disabled=!e.target.checked});
-function showAnn(){ if(!sessionStorage.getItem('annSeen')){ ann.showModal(); sessionStorage.setItem('annSeen','1') } }
+function showAnn(){ if(!F('showAnnouncement')||sessionStorage.getItem('annSeen')) return;
+  var need=F('requireAnnouncement'), ck=ann.querySelector('#ann-ck');
+  ann.querySelector('.ann-ck').style.display=need?'':'none';
+  ann.querySelector('#ann-go').disabled=need&&!ck.checked;
+  ann.showModal(); sessionStorage.setItem('annSeen','1') }
 var loc=el('dialog',{class:'ann loc'},
   el('div',{class:'loc-head'},el('img',{src:'images/logo.png',alt:'AARF'})),
   el('h3',{text:'Allow location?'}),
@@ -32,8 +39,11 @@ var loc=el('dialog',{class:'ann loc'},
   el('button',{class:'btn ghost',text:'Not now',on:{click:function(){loc.close()}}}));
 loc.addEventListener('close',showAnn); document.body.append(loc);
 setTimeout(function(){
-  var ask=function(){ if(sessionStorage.getItem('locAsked')||!navigator.geolocation||!window.isSecureContext) return showAnn(); sessionStorage.setItem('locAsked','1'); loc.showModal() };
-  try{ navigator.permissions.query({name:'geolocation'}).then(function(r){ r.state==='prompt'?ask():showAnn() },ask) }catch(x){ ask() } },document.getElementById('splash')?1700:300);
+  var ask=function(){ if(!F('showLocationPopup')||sessionStorage.getItem('locAsked')||!navigator.geolocation||!window.isSecureContext) return showAnn(); sessionStorage.setItem('locAsked','1'); loc.showModal() };
+  var begin=function(){ try{ navigator.permissions.query({name:'geolocation'}).then(function(r){ r.state==='prompt'?ask():showAnn() },ask) }catch(x){ ask() } };
+  // wait (up to 3 s) for the latest Settings from the sheet, so a pop-up you switched off never flashes on a returning visitor
+  var t0=Date.now(); (function wait(){ if(window.arFresh||!CONFIG.scriptUrl||Date.now()-t0>3000) begin(); else setTimeout(wait,150) })();
+},document.getElementById('splash')?1700:300);
 
 /* app bar, package page, date page, bars */
 var cur=-1, allow=false, total=el('b',{text:'₱0'}), car=el('div',{class:'car'}), dots=el('div',{class:'dots'}), pTitle=el('h2'), pPrice=el('div',{class:'pp'}), pNote=el('div',{class:'pnote'}), pList=el('ul');
@@ -108,10 +118,18 @@ function legalBody(t){ var d=el('div',{class:'lg-body',hidden:''}), ul=null; Str
 function legalRow(id,label,txt){
   var ck=el('input',{type:'checkbox',id:id}), body=legalBody(txt), tg=el('button',{type:'button',class:'lg-tg','aria-expanded':'false',text:'Read this ▾',on:{click:function(){var o=body.hidden; body.hidden=!o; tg.setAttribute('aria-expanded',String(o)); tg.textContent=o?'Hide ▴':'Read this ▾'}}});
   return el('div',{class:'lg'},el('div',{class:'lg-row'},el('label',{class:'lg-ck'},ck,el('span',{},'I agree to the ',el('b',{text:label}))),tg),body)}
-var legalBox=el('div',{class:'legal'},legalRow('lg-terms','Terms of Service',LG.terms),legalRow('lg-priv','Data Privacy Policy',LG.privacy),el('p',{class:'err',id:'e-legal',role:'alert'}));
+var rowT=legalRow('lg-terms','Terms of Service',LG.terms), rowP=legalRow('lg-priv','Data Privacy Policy',LG.privacy);
+var legalBox=el('div',{class:'legal'},rowT,rowP,el('p',{class:'err',id:'e-legal',role:'alert'}));
 form.querySelector('.form-main').append(legalBox);
-function legalOk(){ var t=document.getElementById('lg-terms'), p=document.getElementById('lg-priv'), bad=!t.checked?t:!p.checked?p:null;
-  document.getElementById('e-legal').textContent=bad?'Please tick both boxes to continue.':'';
+function needT(){ return F('showTerms')&&F('requireTerms') }
+function needP(){ return F('showPrivacy')&&F('requirePrivacy') }
+function applyLegal(){   // Settings sheet: Show / Require Terms of Service and Data Privacy Policy
+  rowT.style.display=F('showTerms')?'':'none'; rowP.style.display=F('showPrivacy')?'':'none';
+  legalBox.style.display=(F('showTerms')||F('showPrivacy'))?'':'none';
+  if(!needT()&&!needP()) document.getElementById('e-legal').textContent='' }
+applyLegal(); document.addEventListener('arsettings',applyLegal);
+function legalOk(){ var t=document.getElementById('lg-terms'), p=document.getElementById('lg-priv'), bad=(needT()&&!t.checked)?t:(needP()&&!p.checked)?p:null;
+  document.getElementById('e-legal').textContent=bad?(needT()&&needP()?'Please tick both boxes to continue.':'Please tick the box to continue.'):'';
   if(bad){ var row=bad.closest('.lg-ck'); flash(row); row.scrollIntoView({block:'center',behavior:'smooth'}); bad.focus({preventScroll:true}); return false } return true }
 function resetLegal(){ ['lg-terms','lg-priv'].forEach(function(id){document.getElementById(id).checked=false}); document.getElementById('e-legal').textContent='' }
 document.addEventListener('click',function(e){ var b=e.target.closest&&e.target.closest('#send'); if(b&&!legalOk()){e.preventDefault();e.stopImmediatePropagation()} },true);
