@@ -68,7 +68,7 @@ details{margin:.4rem 0}summary{cursor:pointer;color:var(--cyan);font-weight:700}
 <script>
 (function(){
 var C=window.CONFIG,D=null,S={},step=0,busy=false,errs={},poll=0;
-var st={pkg:'',date:'',add:{},name:'',phone:'',street:'',city:'',brgy:'',landmark:'',time:'8:00 AM',notes:'',ev:[],pay:'',terms:false,priv:false,hp:''};
+var st={pkg:'',date:'',add:{},name:'',phone:'',street:'',city:'',brgy:'',landmark:'',time:'',hours:'',notes:'',ev:[],pay:'',terms:false,priv:false,hp:''};
 var $=function(s){return document.querySelector(s)},app=$('#app');
 var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
 var num=function(s){return parseInt(String(s||'').replace(/[^\d]/g,''),10)||0},peso=function(n){return '₱'+Number(n).toLocaleString('en-PH')};
@@ -81,6 +81,9 @@ function addons(){return(D&&D.addons)||[]}
 function loc(){return(D&&D.locations)||C.locations||{}}
 var adj='';
 function feeOf(){var f=(((D&&D.locationsFee)||{})[st.city]||{})[st.brgy];return f==null||f===''?null:(Number(f)||0)}
+function times(){var t=D&&D.schedule&&D.schedule.times;if(t&&t.length)return t;var a=[];for(var i=8;i<=21;i++)a.push((i>12?i-12:i)+':00 '+(i<12?'AM':'PM'));return a}
+function hrs(){var h=D&&D.schedule&&D.schedule.hours;return h&&h.length?h:['22']}
+function fixSched(){var t=times(),h=hrs();if(t.indexOf(st.time)<0)st.time=t[0];if(h.indexOf(st.hours)<0)st.hours=h.indexOf('22')>-1?'22':h[0]}
 function fee(){return feeOf()||0}
 function hint(){var f=feeOf();return st.brgy?(f>0?'Delivery fee to '+st.brgy+': '+peso(f)+' (added to your total).':'Free delivery to '+st.brgy+'.'):''}
 function upd(){$('#tot').textContent=peso(total());var h=$('#dh');if(h)h.textContent=hint()}
@@ -118,18 +121,18 @@ function vDate(){
   h+='<p class="sub">Package: <b>'+esc(p.title)+'</b>. Grey dates are taken or closed.</p><div class="card"><div class="ch"><button type="button" data-m="-1" aria-label="Previous month">‹</button><b>'+view.toLocaleDateString('en-PH',{month:'long',year:'numeric'})+'</b><button type="button" data-m="1" aria-label="Next month">›</button></div><div class="cal">'+['Su','Mo','Tu','We','Th','Fr','Sa'].map(function(d){return'<div class="dow">'+d+'</div>'}).join('');
   for(var i=0;i<new Date(y,m,1).getDay();i++)h+='<span></span>';
   for(var d=1;d<=n;d++){var k=kk(new Date(y,m,d)),o=(D&&D.days&&D.days[k])||{},out=k<w.from||k>w.to,sp=special(p,k),cap=p.qty||1,sl=seats(p,k),N=pk0().length||1,cls='',lab='',off=true;
-    if(out){}else if(o['*']){lab='Closed';cls='full'}else if(o[p.title]==='hold'){lab='Hold';cls='hold'}else if(sl<1||o[p.title]){lab='Booked';cls='full'}else{off=false;var l=cap>1?sl:leftFor(k),t=cap>1?cap:N;lab=l+' left';cls=l>=t?'l3':l===1?'l1':'l2'}
+    if(out){}else if(o['*']){lab='Closed';cls='full'}else if(o[p.title]==='hold'){lab='Hold';cls='hold'}else if(sl<1||o[p.title]){lab=o[p.title]==='unavailable'?'Closed':'Booked';cls='full'}else{off=false;var l=cap>1?sl:leftFor(k),t=cap>1?cap:N;lab=l+' left';cls=l>=t?'l3':l===1?'l1':'l2'}
     h+='<button type="button" class="day '+cls+(st.date===k?' sel':'')+(sp&&!off?' sp':'')+'" data-d="'+k+'"'+(off?' disabled':'')+' aria-label="'+nice(k)+(off?', not available':', '+lab)+'">'+d+'<small>'+lab+'</small></button>'}
   h+='</div><div class="lgd"><span><i class="l3"></i>Open</span><span><i class="l2"></i>Some left</span><span><i class="l1"></i>Last one</span><span><i class="full"></i>Booked or full</span><span><i class="hold"></i>On hold</span><span><i class="sp"></i>Special rate</span></div><p class="hint">The number shows how many '+((p.qty||1)>1?esc(p.title)+' sets':'packages')+' are left that day.</p></div>';
   if(st.date){var s2=special(p,st.date);h+='<p class="note">'+nice(st.date)+' · '+peso(priceOf(p,st.date))+(s2?' ('+esc(s2.label)+')':'')+'</p>'+(adj?'<p class="note warn">'+esc(adj)+'</p>':'')}
   return h+'<p class="err">'+(errs.date||'')+'</p>'}
 function vForm(){
-  var L=loc(),c=Object.keys(L),H='';
+  fixSched();var L=loc(),c=Object.keys(L),H='';
   H+='<label class="f">Full name<input id="name" autocomplete="name" value="'+esc(st.name)+'"></label><p class="err">'+(errs.name||'')+'</p>';
   H+='<label class="f">Mobile number<input id="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="0999 123 4567" value="'+esc(st.phone)+'"></label><p class="err">'+(errs.phone||'')+'</p>';
   H+='<div class="row"><label class="f">City<select id="city"><option value="">Select city</option>'+c.map(function(x){return'<option'+(x===st.city?' selected':'')+'>'+esc(x)+'</option>'}).join('')+'</select></label><label class="f">Barangay<select id="brgy"'+(st.city?'':' disabled')+'><option value="">'+(st.city?'Select barangay':'Select city first')+'</option>'+(L[st.city]||[]).map(function(x){var o=((D&&D.locationsOff)||{})[st.city]||[],dis=o.indexOf(x)>-1;return'<option'+(x===st.brgy?' selected':'')+(dis?' disabled':'')+'>'+esc(x)+(dis?' (not available)':'')+'</option>'}).join('')+'</select></label></div><p class="err">'+(errs.loc||'')+'</p><p class="hint" id="dh">'+hint()+'</p>';
   H+='<label class="f">House no. and street<input id="street" value="'+esc(st.street)+'"></label><label class="f">Landmark (optional)<input id="landmark" placeholder="Beside the barangay hall" value="'+esc(st.landmark)+'"></label>';
-  H+='<label class="f">Start time<select id="time">'+['6:00 AM','7:00 AM','8:00 AM','9:00 AM','10:00 AM','12:00 PM','2:00 PM','4:00 PM'].map(function(x){return'<option'+(x===st.time?' selected':'')+'>'+x+'</option>'}).join('')+'</select></label>';
+  H+='<div class="row"><label class="f">Start time<select id="time">'+times().map(function(x){return'<option'+(x===st.time?' selected':'')+'>'+esc(x)+'</option>'}).join('')+'</select></label><label class="f">Hours<select id="hours">'+hrs().map(function(x){return'<option value="'+esc(x)+'"'+(x===st.hours?' selected':'')+'>'+esc(x)+' hrs</option>'}).join('')+'</select></label></div>';
   H+='<fieldset class="fs"><legend>Type of event (tick all that apply)</legend><div class="ev">'+(C.events||[]).map(function(x){return'<label><input type="checkbox" data-ev="'+esc(x)+'"'+(st.ev.indexOf(x)>-1?' checked':'')+'>'+esc(x)+'</label>'}).join('')+'</div></fieldset><p class="err">'+(errs.ev||'')+'</p>';
   H+='<label class="f">Notes (optional)<textarea id="notes" rows="2" placeholder="Number of guests, anything we should know">'+esc(st.notes)+'</textarea></label><input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">';
   return H}
@@ -137,7 +140,7 @@ function legal(t){var o='',ul=0;String(t||'').split('\n').forEach(function(l){l=
 function vReview(){
   var p=cur(),t=total(),r=Math.round(t/2),pm=(S.payMethods||'GCash, Maya, Bank Transfer, Cash').split(',').map(function(x){return x.trim()}).filter(Boolean),L=window.LEGAL||{};
   var ad=addons().filter(function(a){return st.add[a.title]}).map(function(a){return a.title+' ×'+st.add[a.title]}).join(', ');
-  var h=(adj?'<p class="note warn">'+esc(adj)+'</p>':'')+'<div class="card"><dl><dt>Package</dt><dd>'+esc(p.title)+(special(p,st.date)?' ('+esc(special(p,st.date).label)+')':'')+'</dd><dt>Date</dt><dd>'+nice(st.date)+'</dd><dt>Start</dt><dd>'+esc(st.time)+', up to 22 hrs</dd><dt>Venue</dt><dd>'+esc([st.street,st.brgy,st.city].filter(Boolean).join(', '))+'</dd>'+(ad?'<dt>Add-ons</dt><dd>'+esc(ad)+'</dd>':'')+(feeOf()!=null?'<dt>Delivery fee</dt><dd>'+(fee()>0?peso(fee()):'Free')+'</dd>':'')+'<dt>Total rental fee</dt><dd class="tot">'+peso(t)+'</dd><dt>Reservation fee (50%)</dt><dd><b>'+peso(r)+'</b></dd></dl></div>';
+  var h=(adj?'<p class="note warn">'+esc(adj)+'</p>':'')+'<div class="card"><dl><dt>Package</dt><dd>'+esc(p.title)+(special(p,st.date)?' ('+esc(special(p,st.date).label)+')':'')+'</dd><dt>Date</dt><dd>'+nice(st.date)+'</dd><dt>Start</dt><dd>'+esc(st.time)+', '+esc(st.hours)+' hrs</dd><dt>Venue</dt><dd>'+esc([st.street,st.brgy,st.city].filter(Boolean).join(', '))+'</dd>'+(ad?'<dt>Add-ons</dt><dd>'+esc(ad)+'</dd>':'')+(feeOf()!=null?'<dt>Delivery fee</dt><dd>'+(fee()>0?peso(fee()):'Free')+'</dd>':'')+'<dt>Total rental fee</dt><dd class="tot">'+peso(t)+'</dd><dt>Reservation fee (50%)</dt><dd><b>'+peso(r)+'</b></dd></dl></div>';
   h+='<div class="card"><label class="f">How will you pay the reservation fee?<select id="pay"><option value="">Choose</option>'+pm.map(function(x){return'<option'+(x===st.pay?' selected':'')+'>'+esc(x)+'</option>'}).join('')+'</select></label><p class="err">'+(errs.pay||'')+'</p>'+
     '<p class="sub" style="margin:0">Pay only after we confirm your date. GCash: <b>'+esc(S.gcashNumber||C.gcash.number)+'</b>. Send a screenshot through Messenger or Viber.</p></div>';
   h+='<div class="card"><div class="ck"><input type="checkbox" id="terms"'+(st.terms?' checked':'')+'><span>I agree to the Terms of Service</span></div><details><summary>Read the terms</summary><div class="lg">'+legal(L.terms)+'</div></details><div class="ck"><input type="checkbox" id="priv"'+(st.priv?' checked':'')+'><span>I have read the Data Privacy Policy</span></div><details><summary>Read the policy</summary><div class="lg">'+legal(L.privacy)+'</div></details><p class="err">'+(errs.legal||'')+'</p></div>';
@@ -154,13 +157,13 @@ function validate(){errs={};var ok=true,e=function(k,m){errs[k]=m;ok=false};
   if(step===3){if(!st.pay)e('pay','Choose a payment method.');if(!st.terms||!st.priv)e('legal','Tick both boxes to continue.')}
   return ok}
 function send(){
-  if(!dateOk()){errs.send='';errs.date='That date is no longer available. Please choose another date.';st.date='';step=1;return render()}if(!clamp()){errs.send='';return render(1)}
+  fixSched();if(!dateOk()){errs.send='';errs.date='That date is no longer available. Please choose another date.';st.date='';step=1;return render()}if(!clamp()){errs.send='';return render(1)}
   var ctl=new AbortController(),to=setTimeout(function(){ctl.abort()},45000),p=cur(),a=addons().filter(function(x){return st.add[x.title]}),q={};a.forEach(function(x){q[x.title]=st.add[x.title]});
-  var body={website:st.hp,name:st.name,phone:st.phone,pkg:p.title,price:String(priceOf(p,st.date)),date:st.date,time:st.time,hours:'22',venue:[st.street,st.brgy,st.city].filter(Boolean).join(', '),landmark:st.landmark,delivery:true,notes:st.notes,events:st.ev.join(', '),addons:a.map(function(x){return x.title+(st.add[x.title]>1?' x'+st.add[x.title]:'')}).concat(fee()>0?['Delivery fee ('+peso(fee())+')']:[]).join(', '),addonQty:q,total:peso(total()),payMethod:st.pay};
+  var body={website:st.hp,name:st.name,phone:st.phone,pkg:p.title,price:String(priceOf(p,st.date)),date:st.date,time:st.time,hours:st.hours,venue:[st.street,st.brgy,st.city].filter(Boolean).join(', '),landmark:st.landmark,delivery:true,notes:st.notes,events:st.ev.join(', '),addons:a.map(function(x){return x.title+(st.add[x.title]>1?' x'+st.add[x.title]:'')}).concat(fee()>0?['Delivery fee ('+peso(fee())+')']:[]).join(', '),addonQty:q,total:peso(total()),payMethod:st.pay};
   busy=true;render(1);ov(1);
   fetch(C.scriptUrl,{method:'POST',body:JSON.stringify(body),signal:ctl.signal}).then(function(r){return r.json()}).then(function(j){busy=false;clearTimeout(to);ov(0);
     if(j.ok){try{var l=JSON.parse(localStorage.getItem('aarf2')||'[]');l.push(j.id);localStorage.setItem('aarf2',JSON.stringify(l.slice(-10)))}catch(x){}sentView(j.id,'');watch(j.id);return}
-    var m={taken:'That date was just taken. Please choose another date.',closed:'That date is outside the booking window.',price:'The price changed. Please start again to see the new price.',addon:'An add-on just ran out: '+(j.item||'')+'. Remove it and try again.',invalid:'Some details are missing. Please check your entries.'}[j.error]||'Something went wrong. Please try again or message us.';
+    var m={taken:'That date was just taken. Please choose another date.',closed:'That date is outside the booking window.',price:'The price changed. Please start again to see the new price.',addon:'An add-on just ran out: '+(j.item||'')+'. Remove it and try again.',schedule:'That start time or number of hours is no longer available. Please choose again.',invalid:'Some details are missing. Please check your entries.'}[j.error]||'Something went wrong. Please try again or message us.';
     errs.send=m;if(j.error==='taken'||j.error==='price'){load()}render(1)}).catch(function(x){busy=false;clearTimeout(to);ov(0);errs.send=x&&x.name==='AbortError'?'This is taking longer than usual. Check Messenger before trying again, in case your request already went through.':'No connection. Check your internet and try again.';render(1)})}
 var ovT=0;function ov(on){var o=$('#ov');clearInterval(ovT);if(!on){o.hidden=true;return}var m=['Checking availability…','Saving your request…','Notifying our team…','Almost done…'],pc=8,t=$('#ovt'),b=$('#ovb');o.hidden=false;t.textContent=m[0];b.style.width='8%';ovT=setInterval(function(){pc=Math.min(92,pc+(92-pc)*.12);b.style.width=pc+'%';t.textContent=m[Math.min(3,Math.floor(pc/25))]},700)}
 function watch(id){clearInterval(poll);poll=setInterval(function(){if(document.hidden)return;fetch(C.scriptUrl+'?check=1&ids='+id+'&t='+Date.now(),{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){var s=j.st&&j.st[id.toUpperCase()];if(s&&s!=='new')sentView(id,s)}).catch(function(){})},15000)}
@@ -175,7 +178,7 @@ document.addEventListener('input',function(e){var t=e.target,id=t.id;
   if(id==='phone'){var d=t.value.replace(/\D/g,'').slice(0,11);t.value=[d.slice(0,4),d.slice(4,7),d.slice(7)].filter(Boolean).join(' ');st.phone=t.value}
   else if(['name','street','landmark','notes','hp'].indexOf(id)>-1)st[id]=t.value;
   else if(id==='city'){st.city=t.value;st.brgy='';render(1)}
-  else if(['brgy','time','pay'].indexOf(id)>-1){st[id]=t.value;if(id==='brgy')upd()}
+  else if(['brgy','time','hours','pay'].indexOf(id)>-1){st[id]=t.value;if(id==='brgy')upd()}
   else if(id==='terms'||id==='priv')st[id]=t.checked;
   else if(t.dataset.ev){var i=st.ev.indexOf(t.dataset.ev);i>-1?st.ev.splice(i,1):st.ev.push(t.dataset.ev)}});
 $('#next').onclick=function(){if(!validate())return render(1);if(step===3)return send();step++;render()};
