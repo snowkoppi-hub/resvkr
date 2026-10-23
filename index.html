@@ -4,29 +4,163 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1b1740">
-<meta name="color-scheme" content="light">
-<meta name="description" content="Reserve karaoke and event rental sets online: pick a package, date and add-ons, then send your request.">
-<meta property="og:title" content="AARF Karaoke &amp; Event Rentals">
-<meta property="og:description" content="Karaoke sets for birthdays, debuts, reunions and fiestas. Reserve online.">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="images/logo.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" href="images/logo.png" as="image">
-<title>AARF Karaoke &amp; Event Rentals Booking</title>
+<title>AARF Karaoke &amp; Event Rentals</title>
+<meta name="description" content="Reserve a karaoke set for your birthday, debut, reunion or fiesta. Pick a package and date, then send your request.">
 <link rel="icon" href="images/logo.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="flow.css">
+<style>
+:root{--bg:#f4f3fb;--card:#fff;--ink:#1b1740;--mut:#5d5a7c;--line:#dcd9ee;--pink:#d6247a;--cyan:#0b7f92;--gold:#f2b134;--err:#b3261e;--okb:#e3f6ea;--okt:#145c2e;--off:#e4e1f2;--r:14px;--d:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;--b:'Figtree','Segoe UI',system-ui,sans-serif;color-scheme:light}
+@media(prefers-color-scheme:dark){:root{--bg:#12102a;--card:#1d1a3d;--ink:#f1effc;--mut:#a9a6c8;--line:#34305f;--pink:#ff5aa5;--cyan:#38d0e4;--err:#ff8a80;--okb:#12351f;--okt:#9be3b4;--off:#2a2650;color-scheme:dark}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.5 var(--b);padding-bottom:calc(6.5rem + env(safe-area-inset-bottom,0px))}
+button,input,select,textarea{font:inherit;color:inherit}:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+.hero{background:#1b1740 conic-gradient(from 200deg at 12% -20%,transparent 0 8deg,rgba(214,36,122,.6) 10deg 14deg,transparent 16deg),conic-gradient(from 215deg at 50% -25%,transparent 0 6deg,rgba(18,181,203,.55) 8deg 11deg,transparent 13deg),conic-gradient(from 160deg at 88% -20%,transparent 0 10deg,rgba(242,177,52,.5) 12deg 15deg,transparent 17deg);color:#fff;padding:calc(1.5rem + env(safe-area-inset-top,0px)) 1rem 1.6rem}
+.hero div{max-width:42rem;margin:auto;display:flex;gap:1rem;align-items:center}
+.hero img{width:76px;height:76px;border-radius:50%;background:#fff;flex:none}
+h1{font:800 clamp(1.5rem,6vw,2.2rem)/1.1 var(--d);margin:0 0 .3rem}.hero p{margin:0;opacity:.88}
+main{max-width:42rem;margin:auto;padding:1rem}
+.prog{display:flex;gap:.3rem;margin:.2rem 0 1rem}.prog i{flex:1;height:5px;border-radius:9px;background:var(--line)}.prog i.on{background:var(--pink)}
+h2{font:800 1.35rem/1.2 var(--d);margin:0 0 .25rem}.sub{color:var(--mut);margin:0 0 1rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:1rem;margin-bottom:.8rem}
+.pk{display:block;width:100%;text-align:left;padding:0;overflow:hidden;cursor:pointer}
+.pk[aria-checked=true]{border:2px solid var(--pink)}.pk[disabled]{opacity:.5;cursor:not-allowed}
+.pk img{width:100%;aspect-ratio:2/1;object-fit:cover;display:block;background:var(--off)}
+.pk .t{padding:.8rem 1rem}.pk b{font:800 1.15rem var(--d)}.price{font:800 1.3rem var(--d);color:var(--pink)}.price s{font:400 .9rem var(--b);color:var(--mut);margin-right:.3rem}
+.pk ul{margin:.4rem 0 0;padding-left:1.1rem;color:var(--mut);font-size:.92rem}
+.tag{display:inline-block;font-size:.78rem;font-weight:700;border-radius:99px;padding:.1rem .6rem;background:var(--off);margin-left:.4rem}
+.ad{display:flex;gap:.7rem;align-items:center;padding:.6rem 0;border-top:1px solid var(--line)}.ad:first-of-type{border:0}.ad .n{flex:1}.ad small{display:block;color:var(--mut)}
+.ad.dis{opacity:.5}.qty{display:flex;align-items:center;gap:.4rem}.qty button{width:2.2rem;height:2.2rem;border-radius:50%;border:1px solid var(--line);background:var(--card);cursor:pointer}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:.3rem}.dow{text-align:center;font-size:.8rem;color:var(--mut)}
+.day{aspect-ratio:1;border-radius:10px;border:1px solid var(--line);background:var(--card);cursor:pointer;padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}
+.day small{font-size:.62rem;color:var(--mut)}.day:disabled{background:var(--off);color:var(--mut);cursor:not-allowed;border-color:transparent}
+.day.sel{background:var(--pink);color:#fff;border-color:var(--pink)}.day.sel small{color:#fff}.day.sp{box-shadow:inset 0 -3px var(--gold)}
+.ch{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem}.ch button{width:2.5rem;height:2.5rem;border-radius:50%;border:1px solid var(--line);background:var(--card);cursor:pointer}
+label.f{display:block;margin-bottom:.8rem;font-weight:700}label.f input,label.f select,label.f textarea{display:block;width:100%;margin-top:.3rem;padding:.7rem;border:1px solid var(--line);border-radius:10px;background:var(--card);font-weight:400}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}.err{color:var(--err);font-size:.88rem;margin:.2rem 0;min-height:1.1em}
+.ev{display:flex;flex-wrap:wrap;gap:.4rem}.ev label{border:1px solid var(--line);border-radius:99px;padding:.35rem .8rem;cursor:pointer;font-weight:400}.ev input{position:absolute;opacity:0}.ev label:has(input:checked){background:var(--pink);color:#fff;border-color:var(--pink)}
+dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:.35rem 1rem}dt{color:var(--mut)}dd{margin:0;text-align:right}.tot{font:800 1.3rem var(--d)}
+.note{background:var(--okb);color:var(--okt);border-radius:10px;padding:.7rem .9rem;margin:.6rem 0}.warn{background:#fbefd0;color:#6b4700}
+details{margin:.4rem 0}summary{cursor:pointer;color:var(--cyan);font-weight:700}.lg{max-height:14rem;overflow:auto;font-size:.88rem;color:var(--mut);padding:.4rem 0}.lg h4{margin:.8rem 0 .2rem;color:var(--ink)}
+.ck{display:flex;gap:.6rem;align-items:flex-start;margin:.5rem 0}.ck input{margin-top:.3rem;width:1.15rem;height:1.15rem}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom,0px));display:flex;gap:.8rem;align-items:center;justify-content:center}
+.bar>div{flex:1;max-width:19rem}.bar small{display:block;color:var(--mut);line-height:1}.bar b{font:800 1.3rem var(--d)}
+.btn{border:0;border-radius:12px;padding:.8rem 1.4rem;background:var(--pink);color:#fff;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;text-align:center}.btn:disabled{opacity:.5}.btn.ghost{background:var(--off);color:var(--ink)}
+.links{display:flex;flex-wrap:wrap;gap:.5rem;margin:.8rem 0}.skel{height:9rem;border-radius:var(--r);background:linear-gradient(90deg,var(--off),var(--line),var(--off));background-size:200%;animation:s 1.3s infinite}@keyframes s{to{background-position:-200%}}
+@media(prefers-reduced-motion:reduce){.skel{animation:none}}
+.hp{position:absolute;left:-9999px}
+</style>
 </head>
 <body>
-<div id="splash"><img src="images/logo.png" alt="AARF Karaoke &amp; Event Rentals" width="230" height="230"></div>
-<script>try{if(sessionStorage.getItem("sp"))document.getElementById("splash").remove();else sessionStorage.setItem("sp","1")}catch(e){}</script>
-<div id="app"></div>
-<script defer src="config.js"></script>
-<script defer src="app.js"></script>
-<script defer src="legal.js"></script>
-<script defer src="flow.js"></script>
-<script>setTimeout(function(){var s=document.getElementById("splash");if(s)s.remove()},2000)</script>
+<header class="hero"><div><img src="images/logo.png" alt="AARF logo"><section><h1>AARF Karaoke &amp; Event Rentals</h1><p>Karaoke sets for birthdays, debuts, reunions and fiestas.</p></section></div></header>
+<main id="app"><div class="skel"></div></main>
+<div class="bar" id="bar" hidden><div><small>Total rental fee</small><b id="tot">₱0</b></div><button class="btn ghost" id="back" type="button">Back</button><button class="btn" id="next" type="button">Next</button></div>
+<script src="config.js"></script>
+<script src="legal.js"></script>
+<script>
+(function(){
+var C=window.CONFIG,D=null,S={},step=0,busy=false,errs={},poll=0;
+var st={pkg:'',date:'',add:{},name:'',phone:'',street:'',city:'',brgy:'',landmark:'',time:'8:00 AM',notes:'',ev:[],pay:'',terms:false,priv:false,hp:''};
+var $=function(s){return document.querySelector(s)},app=$('#app');
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+var num=function(s){return parseInt(String(s||'').replace(/[^\d]/g,''),10)||0},peso=function(n){return '₱'+Number(n).toLocaleString('en-PH')};
+var manila=function(){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Manila'}).format(new Date())};   /* always Manila time, never the device clock */
+var TODAY=manila(),mk=function(k){var p=k.split('-');return new Date(+p[0],+p[1]-1,+p[2])},kk=function(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+var addD=function(k,n){var d=mk(k);d.setDate(d.getDate()+n);return kk(d)},nice=function(k){return mk(k).toLocaleDateString('en-PH',{weekday:'long',month:'long',day:'numeric',year:'numeric'})};
+var view=mk(TODAY);view.setDate(1);
+function pkgs(){return(D&&D.packages)||C.packages.map(function(p){return{title:p.title,price:p.price,regular:p.regular,note:p.note,items:p.items,image:'',available:true,qty:1}})}
+function addons(){return(D&&D.addons)||[]}
+function loc(){return(D&&D.locations)||C.locations||{}}
+function cur(){return pkgs().filter(function(p){return p.title===st.pkg})[0]}
+function special(p,k){var b=null;((D&&D.special)||[]).forEach(function(r){if(k<r.from||k>(r.to||r.from)||(r.pkg&&r.pkg!==p.title))return;if(!b||r.pkg)b=r});
+  return b?{price:b.price!=null&&b.price!==''?num(b.price):Math.max(0,num(p.price)+(Number(b.add)||0)),label:b.label||'Special rate'}:null}
+function priceOf(p,k){var s=k&&special(p,k);return s?s.price:num(p.price)}
+function dayState(k,t){var o=(D&&D.days&&D.days[k])||{};return o['*']||o[t]||''}
+function seats(p,k){var u=((D&&D.pused)||{})[k]||{};return Math.max(0,(p.qty||1)-(u[p.title]||0))}
+function maxQ(a,k){var o=((D&&D.off)||{})[k]||{},u=((D&&D.used)||{})[k]||{};return(!a.available||o[a.title])?0:Math.max(0,(a.qty||1)-(u[a.title]||0))}
+function total(){var p=cur();if(!p)return 0;var t=priceOf(p,st.date);addons().forEach(function(a){var q=st.add[a.title]||0;if(q)t+=num(a.price)*Math.min(q,st.date?maxQ(a,st.date):a.qty||1)});return t}
+function win(){var s=S.minDays?parseInt(S.minDays,10):0,m=parseInt(S.maxDays,10);return{from:addD(TODAY,s>0?s:0),to:isNaN(m)||m<0?addD(TODAY,365):addD(TODAY,m)}}
+var T=['Choose a package','Choose a date','Your details','Review and send'];
+function render(){
+  if(!D&&!C.scriptUrl)D={};
+  var h='<div class="prog">'+[0,1,2,3].map(function(i){return'<i class="'+(i<=step?'on':'')+'"></i>'}).join('')+'</div><h2>'+T[step]+'</h2>';
+  h+=[vPkg,vDate,vForm,vReview][step]();
+  app.innerHTML=h;$('#bar').hidden=false;$('#back').hidden=step===0;$('#tot').textContent=peso(total());
+  $('#next').textContent=step===3?(busy?'Sending…':'Send booking request'):'Next';$('#next').disabled=busy||S.acceptRequests==='No';
+  if(step===3&&S.acceptRequests==='No')app.insertAdjacentHTML('afterbegin','<p class="note warn">'+esc(S.pausedMsg||'Online booking is paused. Please message us to book.')+'</p>');
+  window.scrollTo(0,0)}
+function vPkg(){
+  var h='<p class="sub">'+esc(S.step1note||'Prices shown are promo prices.')+'</p>';
+  pkgs().forEach(function(p){var off=p.available===false;
+    h+='<button type="button" class="card pk" data-pk="'+esc(p.title)+'" role="radio" aria-checked="'+(st.pkg===p.title)+'"'+(off?' disabled':'')+'><img src="'+esc(p.image||'images/'+p.title.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.jpg')+'" alt="" loading="lazy" onerror="this.remove()"><div class="t"><b>'+esc(p.title)+'</b>'+(off?'<span class="tag">Not available</span>':'')+'<div class="price">'+(p.regular?'<s>₱'+esc(p.regular)+'</s>':'')+'₱'+esc(p.price)+' <small style="font:400 .85rem var(--b);color:var(--mut)">'+esc(p.note||'')+'</small></div><ul>'+(p.items||[]).map(function(i){return'<li>'+esc(i)+'</li>'}).join('')+'</ul></div></button>'});
+  if(addons().length){h+='<div class="card"><b>Add-ons</b>';addons().forEach(function(a){var q=st.add[a.title]||0,mx=a.qty||1,dis=!a.available;
+    h+='<div class="ad'+(dis?' dis':'')+'"><div class="n">'+esc(a.title)+'<small>'+(dis?'Not available':'₱'+esc(a.price)+(a.regular?' (regular ₱'+esc(a.regular)+')':'')+(a.note?' · '+esc(a.note):''))+'</small></div>'+(dis?'':'<div class="qty"><button type="button" data-q="-1" data-a="'+esc(a.title)+'" aria-label="Fewer '+esc(a.title)+'">−</button><span>'+q+'</span><button type="button" data-q="1" data-a="'+esc(a.title)+'" aria-label="More '+esc(a.title)+'"'+(q>=mx?' disabled':'')+'>+</button></div>')+'</div>'});h+='</div>'}
+  return h+'<p class="err">'+(errs.pkg||'')+'</p>'}
+function vDate(){
+  var w=win(),y=view.getFullYear(),m=view.getMonth(),n=new Date(y,m+1,0).getDate(),p=cur(),h='';
+  h+='<p class="sub">Package: <b>'+esc(p.title)+'</b>. Grey dates are taken or closed.</p><div class="card"><div class="ch"><button type="button" data-m="-1" aria-label="Previous month">‹</button><b>'+view.toLocaleDateString('en-PH',{month:'long',year:'numeric'})+'</b><button type="button" data-m="1" aria-label="Next month">›</button></div><div class="cal">'+['Su','Mo','Tu','We','Th','Fr','Sa'].map(function(d){return'<div class="dow">'+d+'</div>'}).join('');
+  for(var i=0;i<new Date(y,m,1).getDay();i++)h+='<span></span>';
+  for(var d=1;d<=n;d++){var k=kk(new Date(y,m,d)),s=k<w.from||k>w.to?'out':dayState(k,p.title),left=seats(p,k),off=!!s||left<1,sp=special(p,k);
+    h+='<button type="button" class="day'+(st.date===k?' sel':'')+(sp&&!off?' sp':'')+'" data-d="'+k+'"'+(off?' disabled':'')+' aria-label="'+nice(k)+(off?', not available':'')+'">'+d+'<small>'+(off?(s==='hold'?'Hold':s==='out'?'':'Full'):sp?sp.label.slice(0,8):'')+'</small></button>'}
+  h+='</div></div>';
+  if(st.date){var s2=special(p,st.date);h+='<p class="note">'+nice(st.date)+' · '+peso(priceOf(p,st.date))+(s2?' ('+esc(s2.label)+')':'')+'</p>'}
+  return h+'<p class="err">'+(errs.date||'')+'</p>'}
+function vForm(){
+  var L=loc(),c=Object.keys(L),H='';
+  H+='<label class="f">Full name<input id="name" autocomplete="name" value="'+esc(st.name)+'"></label><p class="err">'+(errs.name||'')+'</p>';
+  H+='<label class="f">Mobile number<input id="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="0999 123 4567" value="'+esc(st.phone)+'"></label><p class="err">'+(errs.phone||'')+'</p>';
+  H+='<div class="row"><label class="f">City<select id="city"><option value="">Select city</option>'+c.map(function(x){return'<option'+(x===st.city?' selected':'')+'>'+esc(x)+'</option>'}).join('')+'</select></label><label class="f">Barangay<select id="brgy"'+(st.city?'':' disabled')+'><option value="">'+(st.city?'Select barangay':'Select city first')+'</option>'+(L[st.city]||[]).map(function(x){var o=((D&&D.locationsOff)||{})[st.city]||[],dis=o.indexOf(x)>-1;return'<option'+(x===st.brgy?' selected':'')+(dis?' disabled':'')+'>'+esc(x)+(dis?' (not available)':'')+'</option>'}).join('')+'</select></label></div><p class="err">'+(errs.loc||'')+'</p>';
+  H+='<label class="f">House no. and street<input id="street" value="'+esc(st.street)+'"></label><label class="f">Landmark (optional)<input id="landmark" placeholder="Beside the barangay hall" value="'+esc(st.landmark)+'"></label>';
+  H+='<div class="row"><label class="f">Start time<select id="time">'+['6:00 AM','7:00 AM','8:00 AM','9:00 AM','10:00 AM','12:00 PM','2:00 PM','4:00 PM'].map(function(x){return'<option'+(x===st.time?' selected':'')+'>'+x+'</option>'}).join('')+'</select></label><label class="f">Type of event</label></div>';
+  H+='<div class="ev">'+(C.events||[]).map(function(x){return'<label><input type="checkbox" data-ev="'+esc(x)+'"'+(st.ev.indexOf(x)>-1?' checked':'')+'>'+esc(x)+'</label>'}).join('')+'</div><p class="err">'+(errs.ev||'')+'</p>';
+  H+='<label class="f">Notes (optional)<textarea id="notes" rows="2" placeholder="Number of guests, anything we should know">'+esc(st.notes)+'</textarea></label><input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">';
+  return H}
+function legal(t){var o='',ul=0;String(t||'').split('\n').forEach(function(l){l=l.trim();if(!l)return;if(l.slice(0,3)==='## '){ul=0;o+='<h4>'+esc(l.slice(3))+'</h4>'}else if(l[0]==='•'){o+='<p>• '+esc(l.slice(1).trim())+'</p>'}else o+='<p>'+esc(l)+'</p>'});return o}
+function vReview(){
+  var p=cur(),t=total(),r=Math.round(t/2),pm=(S.payMethods||'GCash, Maya, Bank Transfer, Cash').split(',').map(function(x){return x.trim()}).filter(Boolean),L=window.LEGAL||{};
+  var ad=addons().filter(function(a){return st.add[a.title]}).map(function(a){return a.title+' ×'+st.add[a.title]}).join(', ');
+  var h='<div class="card"><dl><dt>Package</dt><dd>'+esc(p.title)+'</dd><dt>Date</dt><dd>'+nice(st.date)+'</dd><dt>Start</dt><dd>'+esc(st.time)+', up to 22 hrs</dd><dt>Venue</dt><dd>'+esc([st.street,st.brgy,st.city].filter(Boolean).join(', '))+'</dd>'+(ad?'<dt>Add-ons</dt><dd>'+esc(ad)+'</dd>':'')+'<dt>Total rental fee</dt><dd class="tot">'+peso(t)+'</dd><dt>Reservation fee (50%)</dt><dd><b>'+peso(r)+'</b></dd></dl></div>';
+  h+='<div class="card"><label class="f">How will you pay the reservation fee?<select id="pay"><option value="">Choose</option>'+pm.map(function(x){return'<option'+(x===st.pay?' selected':'')+'>'+esc(x)+'</option>'}).join('')+'</select></label><p class="err">'+(errs.pay||'')+'</p>'+
+    '<p class="sub" style="margin:0">Pay only after we confirm your date. GCash: <b>'+esc(S.gcashNumber||C.gcash.number)+'</b>. Send a screenshot through Messenger or Viber.</p></div>';
+  h+='<div class="card"><div class="ck"><input type="checkbox" id="terms"'+(st.terms?' checked':'')+'><span>I agree to the Terms of Service</span></div><details><summary>Read the terms</summary><div class="lg">'+legal(L.terms)+'</div></details><div class="ck"><input type="checkbox" id="priv"'+(st.priv?' checked':'')+'><span>I have read the Data Privacy Policy</span></div><details><summary>Read the policy</summary><div class="lg">'+legal(L.privacy)+'</div></details><p class="err">'+(errs.legal||'')+'</p></div>';
+  return h+'<p class="note warn">Your date is not reserved until we reply and confirm. Cancel before '+esc(C.cutoff)+' the day before your date for a full refund.</p><p class="err">'+(errs.send||'')+'</p>'}
+function sentView(id,status){
+  var m={accepted:['Booking confirmed','We have reserved your date. Please pay the reservation fee to lock it in.'],hold:['Your date is on hold','We are holding your date. Please reply to us to confirm.'],declined:['Request declined','Sorry, we are not available on that date. You are welcome to book another date.']}[status]||['Request sent','Thank you. We will contact you to confirm your date. This page updates when we reply.'];
+  var ph=String(C.phone||'').replace(/\D/g,'').replace(/^0/,'63'),mn=String(C.messenger||'').split('/').pop();
+  app.innerHTML='<h2>'+m[0]+'</h2><p class="sub">'+m[1]+'</p><div class="card"><dl><dt>Reference</dt><dd><b>'+esc(id)+'</b></dd><dt>Date</dt><dd>'+nice(st.date)+'</dd></dl></div><div class="links">'+(mn?'<a class="btn" target="_blank" rel="noopener" href="https://m.me/'+encodeURIComponent(mn)+'">Message us</a>':'')+(C.phone?'<a class="btn ghost" href="tel:+'+ph+'">Call '+esc(C.phone)+'</a>':'')+'<button class="btn ghost" type="button" id="again">Book another</button></div>';
+  $('#bar').hidden=true;window.scrollTo(0,0);var b=$('#again');if(b)b.onclick=function(){clearInterval(poll);st.pkg=st.date='';st.add={};st.terms=st.priv=false;step=0;render()}}
+function validate(){errs={};var ok=true,e=function(k,m){errs[k]=m;ok=false};
+  if(step===0&&!st.pkg)e('pkg','Choose a package to continue.');
+  if(step===1&&!st.date)e('date','Choose a date to continue.');
+  if(step===2){if(st.name.trim().length<2)e('name','Enter your full name.');if(!/^09\d{9}$/.test(st.phone.replace(/\D/g,'')))e('phone','Enter an 11-digit mobile number starting with 09.');if(!st.city||!st.brgy)e('loc','Choose your city and barangay.');if(!st.ev.length)e('ev','Choose at least one type of event.')}
+  if(step===3){if(!st.pay)e('pay','Choose a payment method.');if(!st.terms||!st.priv)e('legal','Tick both boxes to continue.')}
+  return ok}
+function send(){
+  var p=cur(),a=addons().filter(function(x){return st.add[x.title]}),q={};a.forEach(function(x){q[x.title]=st.add[x.title]});
+  var body={website:st.hp,name:st.name,phone:st.phone,pkg:p.title,price:String(priceOf(p,st.date)),date:st.date,time:st.time,hours:'22',venue:[st.street,st.brgy,st.city].filter(Boolean).join(', '),landmark:st.landmark,delivery:true,notes:st.notes,events:st.ev.join(', '),addons:a.map(function(x){return x.title+(st.add[x.title]>1?' x'+st.add[x.title]:'')}).join(', '),addonQty:q,total:peso(total()),payMethod:st.pay};
+  busy=true;render();
+  fetch(C.scriptUrl,{method:'POST',body:JSON.stringify(body)}).then(function(r){return r.json()}).then(function(j){busy=false;
+    if(j.ok){try{var l=JSON.parse(localStorage.getItem('aarf2')||'[]');l.push(j.id);localStorage.setItem('aarf2',JSON.stringify(l.slice(-10)))}catch(x){}sentView(j.id,'');watch(j.id);return}
+    var m={taken:'That date was just taken. Please choose another date.',closed:'That date is outside the booking window.',price:'The price changed. Please start again to see the new price.',addon:'An add-on just ran out: '+(j.item||'')+'. Remove it and try again.',invalid:'Some details are missing. Please check your entries.'}[j.error]||'Something went wrong. Please try again or message us.';
+    errs.send=m;if(j.error==='taken'||j.error==='price'){load()}render()}).catch(function(){busy=false;errs.send='No connection. Check your internet and try again.';render()})}
+function watch(id){clearInterval(poll);poll=setInterval(function(){if(document.hidden)return;fetch(C.scriptUrl+'?check=1&ids='+id+'&t='+Date.now(),{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){var s=j.st&&j.st[id.toUpperCase()];if(s&&s!=='new')sentView(id,s)}).catch(function(){})},15000)}
+function load(q){if(!C.scriptUrl){D={};return render()}
+  fetch(C.scriptUrl+'?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){if(j&&j.ok){D=j;S=j.settings||{};if(q)return;}render()}).catch(function(){D=D||{};if(!q)render()})}
+document.addEventListener('click',function(e){var t=e.target.closest('[data-pk],[data-q],[data-d],[data-m]');if(!t)return;
+  if(t.dataset.pk){st.pkg=t.dataset.pk;if(st.date&&(dayState(st.date,st.pkg)))st.date='';errs={};render()}
+  else if(t.dataset.q){var k=t.dataset.a,v=Math.max(0,(st.add[k]||0)+ +t.dataset.q);v?st.add[k]=v:delete st.add[k];render()}
+  else if(t.dataset.d){st.date=t.dataset.d;errs={};render()}
+  else if(t.dataset.m){view.setMonth(view.getMonth()+ +t.dataset.m);render()}});
+document.addEventListener('input',function(e){var t=e.target,id=t.id;
+  if(id==='phone'){var d=t.value.replace(/\D/g,'').slice(0,11);t.value=[d.slice(0,4),d.slice(4,7),d.slice(7)].filter(Boolean).join(' ');st.phone=t.value}
+  else if(['name','street','landmark','notes','hp'].indexOf(id)>-1)st[id]=t.value;
+  else if(id==='city'){st.city=t.value;st.brgy='';render()}
+  else if(['brgy','time','pay'].indexOf(id)>-1)st[id]=t.value;
+  else if(id==='terms'||id==='priv')st[id]=t.checked;
+  else if(t.dataset.ev){var i=st.ev.indexOf(t.dataset.ev);i>-1?st.ev.splice(i,1):st.ev.push(t.dataset.ev)}});
+$('#next').onclick=function(){if(!validate())return render();if(step===3)return send();step++;render()};
+$('#back').onclick=function(){if(step>0){step--;errs={};render()}};
+render();load();setInterval(function(){if(!document.hidden&&!busy&&step<3)load(true)},60000);
+})();
+</script>
 </body>
 </html>
