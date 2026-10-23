@@ -9,15 +9,15 @@
 <link rel="icon" href="images/logo.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;500;700&display=swap">
 <style>
-:root{--bg:#f4f3fb;--card:#fff;--ink:#1b1740;--mut:#5d5a7c;--line:#dcd9ee;--pink:#d6247a;--cyan:#0b7f92;--gold:#f2b134;--err:#b3261e;--okb:#e3f6ea;--okt:#145c2e;--off:#e4e1f2;--r:14px;--d:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;--b:'Figtree','Segoe UI',system-ui,sans-serif;color-scheme:light}
-@media(prefers-color-scheme:dark){:root{--bg:#12102a;--card:#1d1a3d;--ink:#f1effc;--mut:#a9a6c8;--line:#34305f;--pink:#ff5aa5;--cyan:#38d0e4;--err:#ff8a80;--okb:#12351f;--okt:#9be3b4;--off:#2a2650;color-scheme:dark}}
+:root{--bg:#f4f3fb;--card:#fff;--ink:#1b1740;--mut:#5d5a7c;--line:#dcd9ee;--pink:#d6247a;--cyan:#0b7f92;--gold:#f2b134;--err:#b3261e;--okb:#e3f6ea;--okt:#145c2e;--g:#e3f6ea;--a:#fdf0cf;--o:#fde0d6;--off:#e4e1f2;--r:14px;--d:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;--b:'Figtree','Segoe UI',system-ui,sans-serif;color-scheme:light}
+@media(prefers-color-scheme:dark){:root{--bg:#12102a;--card:#1d1a3d;--ink:#f1effc;--mut:#a9a6c8;--line:#34305f;--pink:#ff5aa5;--cyan:#38d0e4;--err:#ff8a80;--okb:#12351f;--okt:#9be3b4;--g:#143a25;--a:#43361a;--o:#4a2622;--off:#2a2650;color-scheme:dark}}
 *{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.5 var(--b);padding-bottom:calc(6.5rem + env(safe-area-inset-bottom,0px))}
 button,input,select,textarea{font:inherit;color:inherit}:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
 .hero{background:#1b1740 conic-gradient(from 200deg at 12% -20%,transparent 0 8deg,rgba(214,36,122,.6) 10deg 14deg,transparent 16deg),conic-gradient(from 215deg at 50% -25%,transparent 0 6deg,rgba(18,181,203,.55) 8deg 11deg,transparent 13deg),conic-gradient(from 160deg at 88% -20%,transparent 0 10deg,rgba(242,177,52,.5) 12deg 15deg,transparent 17deg);color:#fff;padding:calc(1.5rem + env(safe-area-inset-top,0px)) 1rem 1.6rem}
 .hero div{max-width:42rem;margin:auto;display:flex;gap:1rem;align-items:center}
 .hero img{width:76px;height:76px;border-radius:50%;background:#fff;flex:none}
-h1{font:800 clamp(1.5rem,6vw,2.2rem)/1.1 var(--d);margin:0 0 .3rem}.hero p{margin:0;opacity:.88}
+h1{font:800 clamp(1.5rem,6vw,2.2rem)/1.1 var(--d);margin:0 0 .3rem}.hero h1,.hero p{color:#fff}.hero p{margin:0;opacity:.92}
 main{max-width:42rem;margin:auto;padding:1rem}
 .prog{display:flex;gap:.3rem;margin:.2rem 0 1rem}.prog i{flex:1;height:5px;border-radius:9px;background:var(--line)}.prog i.on{background:var(--pink)}
 h2{font:800 1.35rem/1.2 var(--d);margin:0 0 .25rem}.sub{color:var(--mut);margin:0 0 1rem}
@@ -35,8 +35,8 @@ h2{font:800 1.35rem/1.2 var(--d);margin:0 0 .25rem}.sub{color:var(--mut);margin:
 .day small{font-size:.62rem;color:var(--mut)}.day:disabled{background:var(--off);color:var(--mut);cursor:not-allowed;border-color:transparent}
 .day.sel{background:var(--pink);color:#fff;border-color:var(--pink)}.day.sel small{color:#fff}.day.sp{box-shadow:inset 0 -3px var(--gold)}
 .ch{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem}.ch button{width:2.5rem;height:2.5rem;border-radius:50%;border:1px solid var(--line);background:var(--card);cursor:pointer}
-label.f{display:block;margin-bottom:.8rem;font-weight:700}label.f input,label.f select,label.f textarea{display:block;width:100%;margin-top:.3rem;padding:.7rem;border:1px solid var(--line);border-radius:10px;background:var(--card);font-weight:400}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}.err{color:var(--err);font-size:.88rem;margin:.2rem 0;min-height:1.1em}
+label.f{display:block;margin-bottom:.65rem;font-weight:700}label.f input,label.f select,label.f textarea{display:block;width:100%;margin-top:.3rem;padding:.7rem;border:1px solid var(--line);border-radius:10px;background:var(--card);font-weight:400}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}.err{color:var(--err);font-size:.88rem;margin:-.4rem 0 .65rem}.err:empty{display:none}
 .ev{display:flex;flex-wrap:wrap;gap:.4rem}.ev label{border:1px solid var(--line);border-radius:99px;padding:.35rem .8rem;cursor:pointer;font-weight:400}.ev input{position:absolute;opacity:0}.ev label:has(input:checked){background:var(--pink);color:#fff;border-color:var(--pink)}
 dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:.35rem 1rem}dt{color:var(--mut)}dd{margin:0;text-align:right}.tot{font:800 1.3rem var(--d)}
 .note{background:var(--okb);color:var(--okt);border-radius:10px;padding:.7rem .9rem;margin:.6rem 0}.warn{background:#fbefd0;color:#6b4700}
@@ -47,6 +47,14 @@ details{margin:.4rem 0}summary{cursor:pointer;color:var(--cyan);font-weight:700}
 .btn{border:0;border-radius:12px;padding:.8rem 1.4rem;background:var(--pink);color:#fff;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;text-align:center}.btn:disabled{opacity:.5}.btn.ghost{background:var(--off);color:var(--ink)}
 .links{display:flex;flex-wrap:wrap;gap:.5rem;margin:.8rem 0}.skel{height:9rem;border-radius:var(--r);background:linear-gradient(90deg,var(--off),var(--line),var(--off));background-size:200%;animation:s 1.3s infinite}@keyframes s{to{background-position:-200%}}
 @media(prefers-reduced-motion:reduce){.skel{animation:none}}
+.day.l3{background:var(--g)}.day.l2{background:var(--a)}.day.l1{background:var(--o)}.day.full,.day.hold{background:var(--off);color:var(--mut);cursor:not-allowed}.day.full{text-decoration:line-through}
+.day.sel,.day.sel.l1,.day.sel.l2,.day.sel.l3{background:var(--pink);color:#fff}
+.lgd{display:flex;flex-wrap:wrap;gap:.3rem .9rem;margin-top:.7rem;font-size:.82rem;color:var(--mut)}.lgd i{display:inline-block;width:.8rem;height:.8rem;border-radius:3px;border:1px solid var(--line);margin-right:.3rem;vertical-align:-1px}
+.lgd .l3{background:var(--g)}.lgd .l2{background:var(--a)}.lgd .l1{background:var(--o)}.lgd .full,.lgd .hold{background:var(--off)}.lgd .sp{box-shadow:inset 0 -3px var(--gold)}
+.hint{color:var(--mut);font-size:.85rem;margin:.4rem 0 .65rem}.hint:empty{display:none}.fs{border:0;padding:0;margin:0 0 .65rem}.fs legend{font-weight:700;margin-bottom:.4rem;padding:0}
+.ov{position:fixed;inset:0;background:rgba(18,16,42,.86);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;z-index:9;gap:.9rem;text-align:center;padding:1rem}.ov[hidden]{display:none}
+.rg{position:relative;width:124px;height:124px}.rg img{width:100px;height:100px;border-radius:50%;margin:12px;background:#fff}.rg:after{content:'';position:absolute;inset:0;border-radius:50%;border:5px solid rgba(255,255,255,.25);border-top-color:var(--gold);animation:sp 1s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+.pb{width:14rem;height:6px;background:rgba(255,255,255,.25);border-radius:9px;overflow:hidden}.pb i{display:block;height:100%;width:0;background:var(--pink);transition:width .6s}
 .hp{position:absolute;left:-9999px}
 </style>
 </head>
@@ -54,6 +62,7 @@ details{margin:.4rem 0}summary{cursor:pointer;color:var(--cyan);font-weight:700}
 <header class="hero"><div><img src="images/logo.png" alt="AARF logo"><section><h1>AARF Karaoke &amp; Event Rentals</h1><p>Karaoke sets for birthdays, debuts, reunions and fiestas.</p></section></div></header>
 <main id="app"><div class="skel"></div></main>
 <div class="bar" id="bar" hidden><div><small>Total rental fee</small><b id="tot">₱0</b></div><button class="btn ghost" id="back" type="button">Back</button><button class="btn" id="next" type="button">Next</button></div>
+<div class="ov" id="ov" hidden role="status" aria-live="polite"><div class="rg"><img src="images/logo.png" alt=""></div><b id="ovt">Sending…</b><div class="pb"><i id="ovb"></i></div><small>Please keep this page open.</small></div>
 <script src="config.js"></script>
 <script src="legal.js"></script>
 <script>
@@ -70,55 +79,65 @@ var view=mk(TODAY);view.setDate(1);
 function pkgs(){return(D&&D.packages)||C.packages.map(function(p){return{title:p.title,price:p.price,regular:p.regular,note:p.note,items:p.items,image:'',available:true,qty:1}})}
 function addons(){return(D&&D.addons)||[]}
 function loc(){return(D&&D.locations)||C.locations||{}}
+var adj='';
+function feeOf(){var f=(((D&&D.locationsFee)||{})[st.city]||{})[st.brgy];return f==null||f===''?null:(Number(f)||0)}
+function fee(){return feeOf()||0}
+function hint(){var f=feeOf();return st.brgy?(f>0?'Delivery fee to '+st.brgy+': '+peso(f)+' (added to your total).':'Free delivery to '+st.brgy+'.'):''}
+function upd(){$('#tot').textContent=peso(total());var h=$('#dh');if(h)h.textContent=hint()}
+function pk0(){return pkgs().filter(function(p){return p.available!==false})}
+function leftFor(k){var o=(D&&D.days&&D.days[k])||{};return o['*']?0:pk0().filter(function(p){return!o[p.title]}).length}
+function clamp(){var m=[];addons().forEach(function(a){var q=st.add[a.title]||0;if(!q||!st.date)return;var mx=maxQ(a,st.date);if(q>mx){mx>0?st.add[a.title]=mx:delete st.add[a.title];m.push(a.title+(mx>0?' (only '+mx+' left)':' (not available)'))}});adj=m.length?'Changed for '+nice(st.date)+': '+m.join(', ')+'.':'';return!m.length}
+function dateOk(){var p=cur(),w=win();return!st.date||!!(p&&st.date>=w.from&&st.date<=w.to&&!dayState(st.date,p.title)&&seats(p,st.date)>0)}
 function cur(){return pkgs().filter(function(p){return p.title===st.pkg})[0]}
-function special(p,k){var b=null;((D&&D.special)||[]).forEach(function(r){if(k<r.from||k>(r.to||r.from)||(r.pkg&&r.pkg!==p.title))return;if(!b||r.pkg)b=r});
+function special(p,k){var b=null,bs=-1;((D&&D.special)||[]).forEach(function(r){if(k<r.from||k>(r.to||r.from)||(r.pkg&&r.pkg!==p.title))return;var sc=r.pkg?1:0;if(sc>=bs){b=r;bs=sc}});
   return b?{price:b.price!=null&&b.price!==''?num(b.price):Math.max(0,num(p.price)+(Number(b.add)||0)),label:b.label||'Special rate'}:null}
 function priceOf(p,k){var s=k&&special(p,k);return s?s.price:num(p.price)}
 function dayState(k,t){var o=(D&&D.days&&D.days[k])||{};return o['*']||o[t]||''}
 function seats(p,k){var u=((D&&D.pused)||{})[k]||{};return Math.max(0,(p.qty||1)-(u[p.title]||0))}
 function maxQ(a,k){var o=((D&&D.off)||{})[k]||{},u=((D&&D.used)||{})[k]||{};return(!a.available||o[a.title])?0:Math.max(0,(a.qty||1)-(u[a.title]||0))}
-function total(){var p=cur();if(!p)return 0;var t=priceOf(p,st.date);addons().forEach(function(a){var q=st.add[a.title]||0;if(q)t+=num(a.price)*Math.min(q,st.date?maxQ(a,st.date):a.qty||1)});return t}
+function total(){var p=cur();if(!p)return 0;var t=priceOf(p,st.date);addons().forEach(function(a){var q=st.add[a.title]||0;if(q)t+=num(a.price)*Math.min(q,st.date?maxQ(a,st.date):a.qty||1)});return t+fee()}
 function win(){var s=S.minDays?parseInt(S.minDays,10):0,m=parseInt(S.maxDays,10);return{from:addD(TODAY,s>0?s:0),to:isNaN(m)||m<0?addD(TODAY,365):addD(TODAY,m)}}
 var T=['Choose a package','Choose a date','Your details','Review and send'];
-function render(){
+function render(keep){var y=window.scrollY,ae=document.activeElement,fk=ae&&ae.dataset&&ae.dataset.q?ae.dataset.a+'|'+ae.dataset.q:'';
   if(!D&&!C.scriptUrl)D={};
   var h='<div class="prog">'+[0,1,2,3].map(function(i){return'<i class="'+(i<=step?'on':'')+'"></i>'}).join('')+'</div><h2>'+T[step]+'</h2>';
   h+=[vPkg,vDate,vForm,vReview][step]();
   app.innerHTML=h;$('#bar').hidden=false;$('#back').hidden=step===0;$('#tot').textContent=peso(total());
   $('#next').textContent=step===3?(busy?'Sending…':'Send booking request'):'Next';$('#next').disabled=busy||S.acceptRequests==='No';
   if(step===3&&S.acceptRequests==='No')app.insertAdjacentHTML('afterbegin','<p class="note warn">'+esc(S.pausedMsg||'Online booking is paused. Please message us to book.')+'</p>');
-  window.scrollTo(0,0)}
+  window.scrollTo(0,keep?y:0);if(fk)[].forEach.call(app.querySelectorAll('[data-q]'),function(b){if(b.dataset.a+'|'+b.dataset.q===fk&&!b.disabled)b.focus({preventScroll:true})})}
 function vPkg(){
-  var h='<p class="sub">'+esc(S.step1note||'Prices shown are promo prices.')+'</p>';
-  pkgs().forEach(function(p){var off=p.available===false;
-    h+='<button type="button" class="card pk" data-pk="'+esc(p.title)+'" role="radio" aria-checked="'+(st.pkg===p.title)+'"'+(off?' disabled':'')+'><img src="'+esc(p.image||'images/'+p.title.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.jpg')+'" alt="" loading="lazy" onerror="this.remove()"><div class="t"><b>'+esc(p.title)+'</b>'+(off?'<span class="tag">Not available</span>':'')+'<div class="price">'+(p.regular?'<s>₱'+esc(p.regular)+'</s>':'')+'₱'+esc(p.price)+' <small style="font:400 .85rem var(--b);color:var(--mut)">'+esc(p.note||'')+'</small></div><ul>'+(p.items||[]).map(function(i){return'<li>'+esc(i)+'</li>'}).join('')+'</ul></div></button>'});
-  if(addons().length){h+='<div class="card"><b>Add-ons</b>';addons().forEach(function(a){var q=st.add[a.title]||0,mx=a.qty||1,dis=!a.available;
-    h+='<div class="ad'+(dis?' dis':'')+'"><div class="n">'+esc(a.title)+'<small>'+(dis?'Not available':'₱'+esc(a.price)+(a.regular?' (regular ₱'+esc(a.regular)+')':'')+(a.note?' · '+esc(a.note):''))+'</small></div>'+(dis?'':'<div class="qty"><button type="button" data-q="-1" data-a="'+esc(a.title)+'" aria-label="Fewer '+esc(a.title)+'">−</button><span>'+q+'</span><button type="button" data-q="1" data-a="'+esc(a.title)+'" aria-label="More '+esc(a.title)+'"'+(q>=mx?' disabled':'')+'>+</button></div>')+'</div>'});h+='</div>'}
+  var h='<p class="sub">'+esc(S.step1note||'Prices shown are promo prices.')+'</p>'+(adj?'<p class="note warn">'+esc(adj)+'</p>':'');
+  pkgs().forEach(function(p){var off=p.available===false,full=!!st.date&&seats(p,st.date)<1;
+    h+='<button type="button" class="card pk" data-pk="'+esc(p.title)+'" role="radio" aria-checked="'+(st.pkg===p.title)+'"'+(off||full?' disabled':'')+'><img src="'+esc(p.image||'images/'+p.title.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.jpg')+'" alt="" loading="lazy" onerror="this.remove()"><div class="t"><b>'+esc(p.title)+'</b>'+(off?'<span class="tag">Not available</span>':full?'<span class="tag">Full on your date</span>':'')+'<div class="price">'+(p.regular?'<s>₱'+esc(p.regular)+'</s>':'')+'₱'+esc(p.price)+' <small style="font:400 .85rem var(--b);color:var(--mut)">'+esc(p.note||'')+'</small></div><ul>'+(p.items||[]).map(function(i){return'<li>'+esc(i)+'</li>'}).join('')+'</ul></div></button>'});
+  if(addons().length){h+='<div class="card"><b>Add-ons</b>';addons().forEach(function(a){var q=st.add[a.title]||0,mx=st.date?maxQ(a,st.date):(a.qty||1),dis=!a.available||(!!st.date&&mx<1);
+    h+='<div class="ad'+(dis?' dis':'')+'"><div class="n">'+esc(a.title)+'<small>'+(dis?'Not available':'₱'+esc(a.price)+(a.regular?' (regular ₱'+esc(a.regular)+')':'')+(a.note?' · '+esc(a.note):'')+(st.date&&!dis?' · '+mx+' left on your date':''))+'</small></div>'+(dis?'':'<div class="qty"><button type="button" data-q="-1" data-a="'+esc(a.title)+'" aria-label="Fewer '+esc(a.title)+'">−</button><span>'+q+'</span><button type="button" data-q="1" data-a="'+esc(a.title)+'" aria-label="More '+esc(a.title)+'"'+(q>=mx?' disabled':'')+'>+</button></div>')+'</div>'});h+='</div>'}
   return h+'<p class="err">'+(errs.pkg||'')+'</p>'}
 function vDate(){
   var w=win(),y=view.getFullYear(),m=view.getMonth(),n=new Date(y,m+1,0).getDate(),p=cur(),h='';
   h+='<p class="sub">Package: <b>'+esc(p.title)+'</b>. Grey dates are taken or closed.</p><div class="card"><div class="ch"><button type="button" data-m="-1" aria-label="Previous month">‹</button><b>'+view.toLocaleDateString('en-PH',{month:'long',year:'numeric'})+'</b><button type="button" data-m="1" aria-label="Next month">›</button></div><div class="cal">'+['Su','Mo','Tu','We','Th','Fr','Sa'].map(function(d){return'<div class="dow">'+d+'</div>'}).join('');
   for(var i=0;i<new Date(y,m,1).getDay();i++)h+='<span></span>';
-  for(var d=1;d<=n;d++){var k=kk(new Date(y,m,d)),s=k<w.from||k>w.to?'out':dayState(k,p.title),left=seats(p,k),off=!!s||left<1,sp=special(p,k);
-    h+='<button type="button" class="day'+(st.date===k?' sel':'')+(sp&&!off?' sp':'')+'" data-d="'+k+'"'+(off?' disabled':'')+' aria-label="'+nice(k)+(off?', not available':'')+'">'+d+'<small>'+(off?(s==='hold'?'Hold':s==='out'?'':'Full'):sp?sp.label.slice(0,8):'')+'</small></button>'}
-  h+='</div></div>';
-  if(st.date){var s2=special(p,st.date);h+='<p class="note">'+nice(st.date)+' · '+peso(priceOf(p,st.date))+(s2?' ('+esc(s2.label)+')':'')+'</p>'}
+  for(var d=1;d<=n;d++){var k=kk(new Date(y,m,d)),o=(D&&D.days&&D.days[k])||{},out=k<w.from||k>w.to,sp=special(p,k),cap=p.qty||1,sl=seats(p,k),N=pk0().length||1,cls='',lab='',off=true;
+    if(out){}else if(o['*']){lab='Closed';cls='full'}else if(o[p.title]==='hold'){lab='Hold';cls='hold'}else if(sl<1||o[p.title]){lab='Booked';cls='full'}else{off=false;var l=cap>1?sl:leftFor(k),t=cap>1?cap:N;lab=l+' left';cls=l>=t?'l3':l===1?'l1':'l2'}
+    h+='<button type="button" class="day '+cls+(st.date===k?' sel':'')+(sp&&!off?' sp':'')+'" data-d="'+k+'"'+(off?' disabled':'')+' aria-label="'+nice(k)+(off?', not available':', '+lab)+'">'+d+'<small>'+lab+'</small></button>'}
+  h+='</div><div class="lgd"><span><i class="l3"></i>Open</span><span><i class="l2"></i>Some left</span><span><i class="l1"></i>Last one</span><span><i class="full"></i>Booked or full</span><span><i class="hold"></i>On hold</span><span><i class="sp"></i>Special rate</span></div><p class="hint">The number shows how many '+((p.qty||1)>1?esc(p.title)+' sets':'packages')+' are left that day.</p></div>';
+  if(st.date){var s2=special(p,st.date);h+='<p class="note">'+nice(st.date)+' · '+peso(priceOf(p,st.date))+(s2?' ('+esc(s2.label)+')':'')+'</p>'+(adj?'<p class="note warn">'+esc(adj)+'</p>':'')}
   return h+'<p class="err">'+(errs.date||'')+'</p>'}
 function vForm(){
   var L=loc(),c=Object.keys(L),H='';
   H+='<label class="f">Full name<input id="name" autocomplete="name" value="'+esc(st.name)+'"></label><p class="err">'+(errs.name||'')+'</p>';
   H+='<label class="f">Mobile number<input id="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="0999 123 4567" value="'+esc(st.phone)+'"></label><p class="err">'+(errs.phone||'')+'</p>';
-  H+='<div class="row"><label class="f">City<select id="city"><option value="">Select city</option>'+c.map(function(x){return'<option'+(x===st.city?' selected':'')+'>'+esc(x)+'</option>'}).join('')+'</select></label><label class="f">Barangay<select id="brgy"'+(st.city?'':' disabled')+'><option value="">'+(st.city?'Select barangay':'Select city first')+'</option>'+(L[st.city]||[]).map(function(x){var o=((D&&D.locationsOff)||{})[st.city]||[],dis=o.indexOf(x)>-1;return'<option'+(x===st.brgy?' selected':'')+(dis?' disabled':'')+'>'+esc(x)+(dis?' (not available)':'')+'</option>'}).join('')+'</select></label></div><p class="err">'+(errs.loc||'')+'</p>';
+  H+='<div class="row"><label class="f">City<select id="city"><option value="">Select city</option>'+c.map(function(x){return'<option'+(x===st.city?' selected':'')+'>'+esc(x)+'</option>'}).join('')+'</select></label><label class="f">Barangay<select id="brgy"'+(st.city?'':' disabled')+'><option value="">'+(st.city?'Select barangay':'Select city first')+'</option>'+(L[st.city]||[]).map(function(x){var o=((D&&D.locationsOff)||{})[st.city]||[],dis=o.indexOf(x)>-1;return'<option'+(x===st.brgy?' selected':'')+(dis?' disabled':'')+'>'+esc(x)+(dis?' (not available)':'')+'</option>'}).join('')+'</select></label></div><p class="err">'+(errs.loc||'')+'</p><p class="hint" id="dh">'+hint()+'</p>';
   H+='<label class="f">House no. and street<input id="street" value="'+esc(st.street)+'"></label><label class="f">Landmark (optional)<input id="landmark" placeholder="Beside the barangay hall" value="'+esc(st.landmark)+'"></label>';
-  H+='<div class="row"><label class="f">Start time<select id="time">'+['6:00 AM','7:00 AM','8:00 AM','9:00 AM','10:00 AM','12:00 PM','2:00 PM','4:00 PM'].map(function(x){return'<option'+(x===st.time?' selected':'')+'>'+x+'</option>'}).join('')+'</select></label><label class="f">Type of event</label></div>';
-  H+='<div class="ev">'+(C.events||[]).map(function(x){return'<label><input type="checkbox" data-ev="'+esc(x)+'"'+(st.ev.indexOf(x)>-1?' checked':'')+'>'+esc(x)+'</label>'}).join('')+'</div><p class="err">'+(errs.ev||'')+'</p>';
+  H+='<label class="f">Start time<select id="time">'+['6:00 AM','7:00 AM','8:00 AM','9:00 AM','10:00 AM','12:00 PM','2:00 PM','4:00 PM'].map(function(x){return'<option'+(x===st.time?' selected':'')+'>'+x+'</option>'}).join('')+'</select></label>';
+  H+='<fieldset class="fs"><legend>Type of event (tick all that apply)</legend><div class="ev">'+(C.events||[]).map(function(x){return'<label><input type="checkbox" data-ev="'+esc(x)+'"'+(st.ev.indexOf(x)>-1?' checked':'')+'>'+esc(x)+'</label>'}).join('')+'</div></fieldset><p class="err">'+(errs.ev||'')+'</p>';
   H+='<label class="f">Notes (optional)<textarea id="notes" rows="2" placeholder="Number of guests, anything we should know">'+esc(st.notes)+'</textarea></label><input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">';
   return H}
 function legal(t){var o='',ul=0;String(t||'').split('\n').forEach(function(l){l=l.trim();if(!l)return;if(l.slice(0,3)==='## '){ul=0;o+='<h4>'+esc(l.slice(3))+'</h4>'}else if(l[0]==='•'){o+='<p>• '+esc(l.slice(1).trim())+'</p>'}else o+='<p>'+esc(l)+'</p>'});return o}
 function vReview(){
   var p=cur(),t=total(),r=Math.round(t/2),pm=(S.payMethods||'GCash, Maya, Bank Transfer, Cash').split(',').map(function(x){return x.trim()}).filter(Boolean),L=window.LEGAL||{};
   var ad=addons().filter(function(a){return st.add[a.title]}).map(function(a){return a.title+' ×'+st.add[a.title]}).join(', ');
-  var h='<div class="card"><dl><dt>Package</dt><dd>'+esc(p.title)+'</dd><dt>Date</dt><dd>'+nice(st.date)+'</dd><dt>Start</dt><dd>'+esc(st.time)+', up to 22 hrs</dd><dt>Venue</dt><dd>'+esc([st.street,st.brgy,st.city].filter(Boolean).join(', '))+'</dd>'+(ad?'<dt>Add-ons</dt><dd>'+esc(ad)+'</dd>':'')+'<dt>Total rental fee</dt><dd class="tot">'+peso(t)+'</dd><dt>Reservation fee (50%)</dt><dd><b>'+peso(r)+'</b></dd></dl></div>';
+  var h=(adj?'<p class="note warn">'+esc(adj)+'</p>':'')+'<div class="card"><dl><dt>Package</dt><dd>'+esc(p.title)+(special(p,st.date)?' ('+esc(special(p,st.date).label)+')':'')+'</dd><dt>Date</dt><dd>'+nice(st.date)+'</dd><dt>Start</dt><dd>'+esc(st.time)+', up to 22 hrs</dd><dt>Venue</dt><dd>'+esc([st.street,st.brgy,st.city].filter(Boolean).join(', '))+'</dd>'+(ad?'<dt>Add-ons</dt><dd>'+esc(ad)+'</dd>':'')+(feeOf()!=null?'<dt>Delivery fee</dt><dd>'+(fee()>0?peso(fee()):'Free')+'</dd>':'')+'<dt>Total rental fee</dt><dd class="tot">'+peso(t)+'</dd><dt>Reservation fee (50%)</dt><dd><b>'+peso(r)+'</b></dd></dl></div>';
   h+='<div class="card"><label class="f">How will you pay the reservation fee?<select id="pay"><option value="">Choose</option>'+pm.map(function(x){return'<option'+(x===st.pay?' selected':'')+'>'+esc(x)+'</option>'}).join('')+'</select></label><p class="err">'+(errs.pay||'')+'</p>'+
     '<p class="sub" style="margin:0">Pay only after we confirm your date. GCash: <b>'+esc(S.gcashNumber||C.gcash.number)+'</b>. Send a screenshot through Messenger or Viber.</p></div>';
   h+='<div class="card"><div class="ck"><input type="checkbox" id="terms"'+(st.terms?' checked':'')+'><span>I agree to the Terms of Service</span></div><details><summary>Read the terms</summary><div class="lg">'+legal(L.terms)+'</div></details><div class="ck"><input type="checkbox" id="priv"'+(st.priv?' checked':'')+'><span>I have read the Data Privacy Policy</span></div><details><summary>Read the policy</summary><div class="lg">'+legal(L.privacy)+'</div></details><p class="err">'+(errs.legal||'')+'</p></div>';
@@ -135,31 +154,33 @@ function validate(){errs={};var ok=true,e=function(k,m){errs[k]=m;ok=false};
   if(step===3){if(!st.pay)e('pay','Choose a payment method.');if(!st.terms||!st.priv)e('legal','Tick both boxes to continue.')}
   return ok}
 function send(){
-  var p=cur(),a=addons().filter(function(x){return st.add[x.title]}),q={};a.forEach(function(x){q[x.title]=st.add[x.title]});
-  var body={website:st.hp,name:st.name,phone:st.phone,pkg:p.title,price:String(priceOf(p,st.date)),date:st.date,time:st.time,hours:'22',venue:[st.street,st.brgy,st.city].filter(Boolean).join(', '),landmark:st.landmark,delivery:true,notes:st.notes,events:st.ev.join(', '),addons:a.map(function(x){return x.title+(st.add[x.title]>1?' x'+st.add[x.title]:'')}).join(', '),addonQty:q,total:peso(total()),payMethod:st.pay};
-  busy=true;render();
-  fetch(C.scriptUrl,{method:'POST',body:JSON.stringify(body)}).then(function(r){return r.json()}).then(function(j){busy=false;
+  if(!dateOk()){errs.send='';errs.date='That date is no longer available. Please choose another date.';st.date='';step=1;return render()}if(!clamp()){errs.send='';return render(1)}
+  var ctl=new AbortController(),to=setTimeout(function(){ctl.abort()},45000),p=cur(),a=addons().filter(function(x){return st.add[x.title]}),q={};a.forEach(function(x){q[x.title]=st.add[x.title]});
+  var body={website:st.hp,name:st.name,phone:st.phone,pkg:p.title,price:String(priceOf(p,st.date)),date:st.date,time:st.time,hours:'22',venue:[st.street,st.brgy,st.city].filter(Boolean).join(', '),landmark:st.landmark,delivery:true,notes:st.notes,events:st.ev.join(', '),addons:a.map(function(x){return x.title+(st.add[x.title]>1?' x'+st.add[x.title]:'')}).concat(fee()>0?['Delivery fee ('+peso(fee())+')']:[]).join(', '),addonQty:q,total:peso(total()),payMethod:st.pay};
+  busy=true;render(1);ov(1);
+  fetch(C.scriptUrl,{method:'POST',body:JSON.stringify(body),signal:ctl.signal}).then(function(r){return r.json()}).then(function(j){busy=false;clearTimeout(to);ov(0);
     if(j.ok){try{var l=JSON.parse(localStorage.getItem('aarf2')||'[]');l.push(j.id);localStorage.setItem('aarf2',JSON.stringify(l.slice(-10)))}catch(x){}sentView(j.id,'');watch(j.id);return}
     var m={taken:'That date was just taken. Please choose another date.',closed:'That date is outside the booking window.',price:'The price changed. Please start again to see the new price.',addon:'An add-on just ran out: '+(j.item||'')+'. Remove it and try again.',invalid:'Some details are missing. Please check your entries.'}[j.error]||'Something went wrong. Please try again or message us.';
-    errs.send=m;if(j.error==='taken'||j.error==='price'){load()}render()}).catch(function(){busy=false;errs.send='No connection. Check your internet and try again.';render()})}
+    errs.send=m;if(j.error==='taken'||j.error==='price'){load()}render(1)}).catch(function(x){busy=false;clearTimeout(to);ov(0);errs.send=x&&x.name==='AbortError'?'This is taking longer than usual. Check Messenger before trying again, in case your request already went through.':'No connection. Check your internet and try again.';render(1)})}
+var ovT=0;function ov(on){var o=$('#ov');clearInterval(ovT);if(!on){o.hidden=true;return}var m=['Checking availability…','Saving your request…','Notifying our team…','Almost done…'],pc=8,t=$('#ovt'),b=$('#ovb');o.hidden=false;t.textContent=m[0];b.style.width='8%';ovT=setInterval(function(){pc=Math.min(92,pc+(92-pc)*.12);b.style.width=pc+'%';t.textContent=m[Math.min(3,Math.floor(pc/25))]},700)}
 function watch(id){clearInterval(poll);poll=setInterval(function(){if(document.hidden)return;fetch(C.scriptUrl+'?check=1&ids='+id+'&t='+Date.now(),{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){var s=j.st&&j.st[id.toUpperCase()];if(s&&s!=='new')sentView(id,s)}).catch(function(){})},15000)}
 function load(q){if(!C.scriptUrl){D={};return render()}
-  fetch(C.scriptUrl+'?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){if(j&&j.ok){D=j;S=j.settings||{};if(q)return;}render()}).catch(function(){D=D||{};if(!q)render()})}
+  fetch(C.scriptUrl+'?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){if(j&&j.ok){var was=st.date+'|'+adj;D=j;S=j.settings||{};clamp();if(st.pkg&&st.date&&!dateOk()){st.date='';errs.date='That date was just taken. Please choose another.';if(step>1&&!busy)step=1}if(q&&step>1&&was===st.date+'|'+adj)return;render(q?1:0);return}render()}).catch(function(){D=D||{};if(!q)render()})}
 document.addEventListener('click',function(e){var t=e.target.closest('[data-pk],[data-q],[data-d],[data-m]');if(!t)return;
-  if(t.dataset.pk){st.pkg=t.dataset.pk;if(st.date&&(dayState(st.date,st.pkg)))st.date='';errs={};render()}
-  else if(t.dataset.q){var k=t.dataset.a,v=Math.max(0,(st.add[k]||0)+ +t.dataset.q);v?st.add[k]=v:delete st.add[k];render()}
-  else if(t.dataset.d){st.date=t.dataset.d;errs={};render()}
-  else if(t.dataset.m){view.setMonth(view.getMonth()+ +t.dataset.m);render()}});
+  if(t.dataset.pk){st.pkg=t.dataset.pk;var np=cur();if(st.date&&(dayState(st.date,st.pkg)||seats(np,st.date)<1))st.date='';clamp();errs={};render(1)}
+  else if(t.dataset.q){var k=t.dataset.a,v=Math.max(0,(st.add[k]||0)+ +t.dataset.q);var a0=addons().filter(function(a){return a.title===k})[0];if(a0)v=Math.min(v,st.date?maxQ(a0,st.date):(a0.qty||1));v?st.add[k]=v:delete st.add[k];render(1)}
+  else if(t.dataset.d){st.date=t.dataset.d;errs={};clamp();render(1)}
+  else if(t.dataset.m){view.setMonth(view.getMonth()+ +t.dataset.m);render(1)}});
 document.addEventListener('input',function(e){var t=e.target,id=t.id;
   if(id==='phone'){var d=t.value.replace(/\D/g,'').slice(0,11);t.value=[d.slice(0,4),d.slice(4,7),d.slice(7)].filter(Boolean).join(' ');st.phone=t.value}
   else if(['name','street','landmark','notes','hp'].indexOf(id)>-1)st[id]=t.value;
-  else if(id==='city'){st.city=t.value;st.brgy='';render()}
-  else if(['brgy','time','pay'].indexOf(id)>-1)st[id]=t.value;
+  else if(id==='city'){st.city=t.value;st.brgy='';render(1)}
+  else if(['brgy','time','pay'].indexOf(id)>-1){st[id]=t.value;if(id==='brgy')upd()}
   else if(id==='terms'||id==='priv')st[id]=t.checked;
   else if(t.dataset.ev){var i=st.ev.indexOf(t.dataset.ev);i>-1?st.ev.splice(i,1):st.ev.push(t.dataset.ev)}});
-$('#next').onclick=function(){if(!validate())return render();if(step===3)return send();step++;render()};
+$('#next').onclick=function(){if(!validate())return render(1);if(step===3)return send();step++;render()};
 $('#back').onclick=function(){if(step>0){step--;errs={};render()}};
-render();load();setInterval(function(){if(!document.hidden&&!busy&&step<3)load(true)},60000);
+render();load();setInterval(function(){if(!document.hidden&&!busy&&step<=3)load(true)},60000);
 })();
 </script>
 </body>
